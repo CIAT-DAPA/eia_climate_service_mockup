@@ -31,7 +31,8 @@ const App = () => {
   
   const [error, setError] = useState(null);
 
-  const urlApi = "https://jsonplaceholder.typicode.com/comments";
+  //const urlApi = "https://jsonplaceholder.typicode.com/comments";
+  const urlApi = "http://localhost:105/dummy/"
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -72,6 +73,7 @@ const App = () => {
               setIsLoading(false);
             } else{
               setError(await response.text());
+              
             }
           })
           .catch((err) => {
@@ -135,7 +137,7 @@ const App = () => {
           }
 
           {
-            returnedData && <Results returnedData={initialDataTable}/>
+            returnedData && <Results returnedData={returnedData}/>
           }
 
         
