@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Row, Col, InputGroup, FormControl, Dropdown, DropdownButton, Form, FloatingLabel} from "react-bootstrap";
+import { Row, Col, Button, Form, FloatingLabel} from "react-bootstrap";
 
 
 
@@ -222,11 +222,19 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
                 
 
             </Row>
+            <Row className="mt-4 mx-auto" style={{width: '825px'}}>
+                <Col
+                    className="d-grid gap-2"
+                    
+                >
+                    <Button variant="primary" type="submit" size="lg">
+                        Enviar
+                    </Button>
                 
-                <button 
-                    className="btn btn-primary col-12 mt-2"
-                >Enviar
-                </button>
+                </Col>
+
+            </Row>
+                
 
         </Form>
 
