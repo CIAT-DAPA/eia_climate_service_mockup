@@ -1,6 +1,22 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from numpy import double
+import pandas as pd
+
 
 app = Flask(__name__)
+
+info_farms_for_searching = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv', 
+    dtype={"NOMBRE_LOTE": str, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
+    usecols={"NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
+
+info_farms_for_searching['FINCA'] = info_farms_for_searching['FINCA'].str.upper()
+info_farms_for_searching['NOMBRE_LOTE'] = info_farms_for_searching['NOMBRE_LOTE'].str.upper()
+
+
+
+
+
+
 @app.route('/dummy/', methods=['GET', 'POST'])
 def welcome():
     return jsonify({
@@ -28,17 +44,17 @@ def welcome():
                 'optimal': 7 
             },
             'cultivars_group': {
-                'current': 6,
-                'optimal': 10 
+                'current': 'others',
+                'optimal': 'P4082W' 
             },
             'seed_treatment': {
-                'current': 7,
-                'optimal': 4 
+                'current':'No',
+                'optimal':'Yes' 
             },
             'conservation_agriculture': {
-                'current': 8,
-                'optimal': 2 
-            }
+                'current':'No',
+                'optimal':'Yes' 
+            },
         },
 
         'yield': {
@@ -46,6 +62,12 @@ def welcome():
             'optimal': 17 
         }
         })
+
+@app.route('/farm/<name>', methods=['GET'])
+def search(name):
+    search_for=name.upper()
+    result = info_farms_for_searching[info_farms_for_searching['FINCA'] == search_for]
+    return result.to_json(orient='records')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)

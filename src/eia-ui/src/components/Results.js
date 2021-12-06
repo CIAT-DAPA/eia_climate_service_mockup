@@ -4,6 +4,8 @@ import { Table} from "react-bootstrap";
 const Results = (returnedData) => {
     
     let returnedDataFixed = returnedData.returnedData;
+    console.log(returnedData);
+    console.log(returnedDataFixed);
 
     useEffect(() => {
         returnedDataFixed = returnedData.returnedData;

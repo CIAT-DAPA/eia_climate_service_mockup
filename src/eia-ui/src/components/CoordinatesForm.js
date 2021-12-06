@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Row, Col, Button, Form, FloatingLabel} from "react-bootstrap";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 
 
@@ -15,6 +17,14 @@ const initialFormValues = {
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
                 "Diciembre"]
+
+const months2 = [
+    {value: "Enero", label: "enero"},
+    {value: "Febrero", label: "febrero"}
+]
+
+const animatedComponents = makeAnimated();
+
 
 const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consumeAPI, setIsLoading}) => {
 
@@ -86,6 +96,23 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
 
     }
 
+    const searchApi = (name) => {
+        request = "http://localhost:105/farm/"+name
+
+        fetch(request).then(async (response) => {
+            if (response.ok) {
+              alert(await response.json());
+             
+            } else{
+              //setError(await response.text());
+              
+            }
+          })
+          .catch((err) => {
+            //setError(err.message);
+          });
+    }
+
 
     return(
         
@@ -94,8 +121,8 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
         <Form onSubmit={onFormSubmit} >
 
             <Row className="mb-3">
-                <h6>Selecciona en el mapa o ingresa coordenadas</h6>
-                <Form.Group as={Col} controlId="formGridLat">
+                <h6>Ingresa el nombre de una finca</h6>
+                {/* <Form.Group as={Col} controlId="formGridLat">
                     <FloatingLabel controlId="floatingInputLat" label="Latitud">
                         <Form.Control 
                             type="text"
@@ -114,7 +141,26 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
                             value={formValues.lng}
                         />
                     </FloatingLabel>
+                </Form.Group> */}
+                <Form.Group as={Col} controlId="formSearch">
+                    <FloatingLabel
+                        controlId="searchInput"
+                        label="Nombre finca"
+                        className="mb-3"
+                        onChange={searchApi}
+                    >
+                        <Form.Control type="text" placeholder="El Zapal" />
+                    </FloatingLabel>
                 </Form.Group>
+
+                {/* <Form.Group as={Col} controlId="searchSelect">
+                    <Select options={months2}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        
+                        isMulti 
+                        />
+                </Form.Group> */}
             </Row>
 
             <Row>

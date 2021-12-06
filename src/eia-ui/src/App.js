@@ -9,20 +9,6 @@ import { Row, Col, Container, Spinner } from "react-bootstrap";
 const App = () => {
 
 
-  const initialDataTable = {
-
-    Number_of_post_sowing_herbicides_applications: ['1', '2454'],
-    Number_of_applications_of_insecticides: ['1656', '562'],
-    Total_amount_of_nitrogen_applied_kg_ha: ['561', '256'],
-    Total_amount_of_phosporus_applied_kg_ha: ['178', '82'],
-    Total_amount_of_potassium_applied: ['781', '27'],
-    Cultivars_group: ['61', '28'],
-    Seed_treatment: ['12', '42'],
-    Conservation_agriculture: ['71', '82'],
-    Yield: ['155', '72']
-
-  }
-
   
 
   const [selectedPosition, setSelectedPosition] = useState(null);
@@ -33,6 +19,7 @@ const App = () => {
 
   //const urlApi = "https://jsonplaceholder.typicode.com/comments";
   const urlApi = "http://localhost:105/dummy/"
+  const urlSearch = "http://localhost:105/farm/"
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
