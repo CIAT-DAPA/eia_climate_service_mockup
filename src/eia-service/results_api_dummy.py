@@ -6,8 +6,8 @@ import pandas as pd
 app = Flask(__name__)
 
 info_farms_for_searching = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv', 
-    dtype={"NOMBRE_LOTE": str, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
-    usecols={"NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
+    dtype={"ID_LOTE": int, "NOMBRE_LOTE": str, "ID_FINCA": int, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
+    usecols={"ID_LOTE", "NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
 
 info_farms_for_searching['FINCA'] = info_farms_for_searching['FINCA'].str.upper()
 info_farms_for_searching['NOMBRE_LOTE'] = info_farms_for_searching['NOMBRE_LOTE'].str.upper()

@@ -13,7 +13,9 @@ const App = () => {
 
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [returnedData,  setReturnedData] = useState();
+  const [returnedData,  setReturnedData] = useState([]);
+  const [farmData, setFarmData] = useState();
+  const [lotesSelected, setLotesSelected] = useState();
   
   const [error, setError] = useState(null);
 
@@ -55,11 +57,21 @@ const App = () => {
     if(isOnline){
       fetch(request).then(async (response) => {
             if (response.ok) {
-              setReturnedData(await response.json());
               setError(null);
               setIsLoading(false);
+              let returnData = await response.json();
+              
+              const changedReturnedData = [
+                ...returnedData,
+                returnData
+            ]
+            setReturnedData(changedReturnedData);
+              console.log(returnData);
+              return returnData;
+              
             } else{
               setError(await response.text());
+              return null;
               
             }
           })
@@ -70,12 +82,30 @@ const App = () => {
     else{
       alert("Se encuentra sin conexión. Los datos se enviarán cuando se tenga conexión nuevamente")
       localStorage.setItem('formData',  JSON.stringify(formData));
+      return null;
 
     }
     
     
-    return returnedData;
   };
+
+  const searchApi = (name) => {
+    let request = urlSearch+name
+
+    fetch(request).then(async (response) => {
+        if (response.ok) {
+          //console.log(await response.json());
+          setFarmData(await response.json());
+         
+        } else{
+          setError(await response.text());
+          
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+}
 
 
   
@@ -88,10 +118,16 @@ const App = () => {
       <CoordinatesForm
             selectedPosition={selectedPosition}
             urlApi={urlApi}
+            farmData={farmData}
+            lotesSelected={lotesSelected}
+            returnedData={returnedData}
             
+            setReturnedData={setReturnedData}
             setSelectedPosition={setSelectedPosition}
             consumeAPI={consumeAPI}
             setIsLoading={setIsLoading}
+            searchApi={searchApi}
+            setLotesSelected={setLotesSelected}
             
           />
       </Row>
@@ -101,6 +137,7 @@ const App = () => {
         <Col>
           <MapView
             selectedPosition={selectedPosition}
+            lotesSelected={lotesSelected}
 
             setSelectedPosition={setSelectedPosition}
             
@@ -124,7 +161,7 @@ const App = () => {
           }
 
           {
-            returnedData && <Results returnedData={returnedData}/>
+            //returnedData && <Results returnedData={returnedData}/>
           }
 
         
@@ -133,15 +170,7 @@ const App = () => {
       
 
       </Row>
-      {
-        //consumeAPI(url)
-        
-
-      }
-
-      {
-        //console.log(returnedData)
-      }
+      
 
 
 

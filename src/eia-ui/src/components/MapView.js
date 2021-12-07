@@ -8,7 +8,7 @@ import icon from "./IconLocation";
 import { Container } from "react-bootstrap";
 
 
-const MapView = ({selectedPosition, setSelectedPosition}) => {
+const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
 
 
   const [initialPosition, setInitialPosition] = useState(null);
@@ -40,20 +40,12 @@ const MapView = ({selectedPosition, setSelectedPosition}) => {
 
   const SelectedMarker = () => {
 
-    // const map = useMap();
-    // useEffect(() => {
-    //   map.locate().on("locationfound", function (e) {
-    //     setSelectedPosition(e.latlng);
-    //     map.setView(e.latlng, map.getZoom());
-        
-    //   });
-    // }, []);
-
+  
     const mapClick = useMapEvents({
         click(e) {                             
           setSelectedPosition(e.latlng);
           
-          //map.setView(e.latlng, map.getZoom());         
+                
         },            
     })
 
@@ -64,14 +56,6 @@ const MapView = ({selectedPosition, setSelectedPosition}) => {
           Coordenadas: <br />
           <b>Latitud</b>: {selectedPosition.lat}<br />
           <b>Longitud</b>: {selectedPosition.lng}<br />
-
-          {/* <Button 
-            className="mt-2" 
-            size ="sm" 
-            variant="outline-primary"
-          >
-            Seleccionar coordenadas
-          </Button> */}
         </Popup>
       </Marker>
     );   
@@ -86,11 +70,28 @@ const MapView = ({selectedPosition, setSelectedPosition}) => {
           center={selectedPosition ? selectedPosition : initialPosition} 
           zoom={14}
         >
-          {
+          
+          {/* { Posición actual y poner marcador con click
             !selectedPosition && <InitialLocationMarker/>
           }
 
-          <SelectedMarker/> 
+          <SelectedMarker/>  */}
+          <InitialLocationMarker/>
+
+          {
+            lotesSelected && lotesSelected.map(lote => 
+
+            <Marker position={{lat: lote.value[1], lng: lote.value[2]}} icon={icon}>
+              <Popup>
+                <center>Lote {lote.label}</center> <br />
+                Coordenadas: <br />
+                <b>Latitud</b>: {lote.value[1]}<br />
+                <b>Longitud</b>: {lote.value[2]}<br />
+              </Popup>
+            </Marker>
+              
+            )
+          }
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

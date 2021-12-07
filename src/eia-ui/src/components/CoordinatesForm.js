@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Row, Col, Button, Form, FloatingLabel} from "react-bootstrap";
+import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl} from "react-bootstrap";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -8,8 +8,11 @@ import makeAnimated from 'react-select/animated';
 import '../styles/coordinatesform.css'
 
 const initialFormValues = {
-        lat: '',
-        lng: '',
+        farm: null,
+        lotes: [
+            null
+        
+        ],
         initialMonth: 'Mes inicial',
         finalMonth: 'Mes final'
 }
@@ -18,39 +21,63 @@ const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
                 "Diciembre"]
 
-const months2 = [
-    {value: "Enero", label: "enero"},
-    {value: "Febrero", label: "febrero"}
-]
-
 const animatedComponents = makeAnimated();
 
 
-const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consumeAPI, setIsLoading}) => {
+const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, returnedData,  setReturnedData, setSelectedPosition, consumeAPI, setIsLoading, searchApi, setLotesSelected}) => {
 
     
     
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [formValues, setFormValues] = useState(initialFormValues);
+    const [lotesOptions, setLotesoptions] = useState([]);
+
+    
+    const setFormatSelectLotes = () => {
+        let lotes = []
+        
+        if (farmData){
+
+            farmData.map( lote => lotes.push({value: [lote.ID_LOTE, lote.LAT_LOTE, lote.LONG_LOTE], label: lote.NOMBRE_LOTE}))
+
+            
+
+        }
+        //console.log(lotes);
+        setLotesoptions(lotes);
+
+    }
 
     useEffect(() => {
-    
 
-        if(selectedPosition){
-
+        if(farmData){
             const changedFormValues = {
-                ...formValues,
-                lat: selectedPosition.lat,
-                lng: selectedPosition.lng
-            }
+                        ...formValues,
+                        lotes: farmData
+                    }
             setFormValues(changedFormValues);
-        }
-        else{
-            //setFormValues(initialFormValues);
+            setFormatSelectLotes();
+
         }
     
-    }, [selectedPosition]);
+
+        // if(selectedPosition){ Click and mark on map
+
+        //     const changedFormValues = {
+        //         ...formValues,
+        //         lat: selectedPosition.lat,
+        //         lng: selectedPosition.lng
+        //     }
+        //     setFormValues(changedFormValues);
+        // }
+        // else{
+        //     //setFormValues(initialFormValues);
+        // }
+
+
+    
+    }, [farmData]);
 
     
 
@@ -58,19 +85,33 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
     const onFormSubmit = (e) =>{
         e.preventDefault()
         setIsLoading(true);
-        consumeAPI(urlApi, formValues);
+        let requestBylotes= [];
+
+        for(let i= 0; i < lotesSelected.length; i++){
+
+            
+            consumeAPI(urlApi, formValues)
+            
+            //setReturnedData(changedReturnedData);
+            //let currentResponse = consumeAPI(urlApi, formValues);
+            //console.log(returnedData);
+            //requestBylotes.push(currentResponse);
+
+        }
+
+        setReturnedData(requestBylotes);
+        console.log(requestBylotes);
         //localStorage.setItem('formValues',  JSON.stringify(formValues));
     }
     
-    // const handleSubmit = (e) => {
+    const handleSearch = (e) => {
 
-    //     const changedFormValues = {
-    //         ...formValues,
-    //         [e.target.name] : e.target.value
-    //     }
+        searchApi(formValues.farm);
+
+ 
         
         
-    // }
+    }
 
     const handleInitialMonthSelect = (e) => {
 
@@ -96,22 +137,13 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
 
     }
 
-    const searchApi = (name) => {
-        request = "http://localhost:105/farm/"+name
-
-        fetch(request).then(async (response) => {
-            if (response.ok) {
-              alert(await response.json());
-             
-            } else{
-              //setError(await response.text());
-              
-            }
-          })
-          .catch((err) => {
-            //setError(err.message);
-          });
+    const lotesOnChange = (value) => {
+        
+        setLotesSelected(value);
+        
     }
+
+    
 
 
     return(
@@ -121,46 +153,39 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
         <Form onSubmit={onFormSubmit} >
 
             <Row className="mb-3">
-                <h6>Ingresa el nombre de una finca</h6>
-                {/* <Form.Group as={Col} controlId="formGridLat">
-                    <FloatingLabel controlId="floatingInputLat" label="Latitud">
-                        <Form.Control 
-                            type="text"
-                            placeholder="3.5454845"  
-                            value={formValues.lat}
-                            
-                        />
-                    </FloatingLabel>
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="formGridLng">
-                    <FloatingLabel controlId="floatingInputLng" label="Longitud">
-                        <Form.Control 
-                            type="text"
-                            placeholder="3.5454845"  
-                            value={formValues.lng}
-                        />
-                    </FloatingLabel>
-                </Form.Group> */}
-                <Form.Group as={Col} controlId="formSearch">
-                    <FloatingLabel
-                        controlId="searchInput"
-                        label="Nombre finca"
-                        className="mb-3"
-                        onChange={searchApi}
-                    >
-                        <Form.Control type="text" placeholder="El Zapal" />
-                    </FloatingLabel>
-                </Form.Group>
-
-                {/* <Form.Group as={Col} controlId="searchSelect">
-                    <Select options={months2}
-                        closeMenuOnSelect={false}
-                        components={animatedComponents}
+                <h6>Ingresa el nombre de una finca y luego selecciona uno o más lotes</h6>
+                
+                <InputGroup as={Col}>
+                    
+                    <FormControl
+                    aria-label="Example text with button addon"
+                    aria-describedby="basic-addon1"
+                    placeholder="Nombre finca"
+                    onChange={e => setFormValues({ farm: e.target.value })}
+                    />
+                    <Button 
+                        variant="outline-primary" 
+                        id="button-addon1"
+                        onClick={() => handleSearch()}
                         
-                        isMulti 
+                    >
+                    Click para buscar finca
+                    </Button>
+                </InputGroup>
+
+                <Form.Group as={Col} controlId="searchSelect">
+                    <Select
+                        closeMenuOnSelect={false}
+                        name="lotes"
+                        options={farmData ? lotesOptions:null}
+                        isMulti
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        placeholder="Selecione uno o más lotes"
+                        isDisabled={farmData?false:true}
+                        onChange={lotesOnChange}
                         />
-                </Form.Group> */}
+                </Form.Group>
             </Row>
 
             <Row>
@@ -211,61 +236,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, setSelectedPosition, consume
                     </FloatingLabel>
 
                 </Form.Group>
-               
-                    
-{/* 
-                <Col>
-                
-                    <DropdownButton 
-                        className="mb-2"
-                        id="dropdown-autoclose-true"
-                        title={formValues.initialMonth}
-                        name="initialMonth"
-                        onSelect={handleInitialMonthSelect}
-                        variant="outline-primary"
 
-                    >
-                    {
-                        months.map( month => (
-                            <Dropdown.Item id="initialMonth" eventKey={month}>{month}</Dropdown.Item>
-
-                            )
-
-                        )
-                    }
-                       
-
-                    </DropdownButton>
-                
-                </Col>
-                <Col>
-                
-                    <DropdownButton 
-                        className="mb-2"
-                        id="dropdown-autoclose-true"
-                        title={formValues.finalMonth}
-                        name="finalMonth"
-                        onSelect={handleFinalMonthSelect}
-                        variant="outline-primary"
-
-                    >
-                    {
-                        months.map( month => (
-                            <Dropdown.Item id="finalMonth" eventKey={month}>{month}</Dropdown.Item>
-
-                        )
-
-                    )
-                }
-                       
-
-                    </DropdownButton>
-
-                
-                
-                </Col> */}
-            
-                
 
             </Row>
             <Row className="mt-4 mx-auto" style={{width: '825px'}}>
