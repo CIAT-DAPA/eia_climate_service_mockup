@@ -19,6 +19,8 @@ info_farms_for_searching['NOMBRE_LOTE'] = info_farms_for_searching['NOMBRE_LOTE'
 
 @app.route('/dummy/', methods=['GET', 'POST'])
 def welcome():
+
+    json_data = request.form
     return jsonify({
 
         'predictors':{

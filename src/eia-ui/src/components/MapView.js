@@ -2,16 +2,17 @@ import "../styles/mapview.css";
 import React, { useEffect, useState} from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import {Button } from "react-bootstrap";
+
 
 import icon from "./IconLocation";
-import { Container } from "react-bootstrap";
+
 
 
 const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
 
 
   const [initialPosition, setInitialPosition] = useState(null);
+  const defaultPosition = [4.891201, -75.180664]
   
 
   //initial position
@@ -67,23 +68,24 @@ const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
     
 
         <MapContainer
-          center={selectedPosition ? selectedPosition : initialPosition} 
-          zoom={14}
+          //center={selectedPosition ? selectedPosition : initialPosition}
+          center={{lat: defaultPosition[0], lng: defaultPosition[1]}}
+          zoom={6}
         >
           
           {/* { Posición actual y poner marcador con click
             !selectedPosition && <InitialLocationMarker/>
           }
 
-          <SelectedMarker/>  */}
-          <InitialLocationMarker/>
+        <InitialLocationMarker/>
+        <SelectedMarker/>  */}
 
           {
             lotesSelected && lotesSelected.map(lote => 
 
             <Marker position={{lat: lote.value[1], lng: lote.value[2]}} icon={icon}>
               <Popup>
-                <center>Lote {lote.label}</center> <br />
+                <center>Lote: {lote.label}</center> <br />
                 Coordenadas: <br />
                 <b>Latitud</b>: {lote.value[1]}<br />
                 <b>Longitud</b>: {lote.value[2]}<br />

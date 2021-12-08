@@ -13,8 +13,8 @@ const initialFormValues = {
             null
         
         ],
-        initialMonth: 'Mes inicial',
-        finalMonth: 'Mes final'
+        initialMonth: null,
+        finalMonth: null
 }
 
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
@@ -52,11 +52,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
     useEffect(() => {
 
         if(farmData){
-            const changedFormValues = {
-                        ...formValues,
-                        lotes: farmData
-                    }
-            setFormValues(changedFormValues);
+
             setFormatSelectLotes();
 
         }
@@ -74,8 +70,6 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
         // else{
         //     //setFormValues(initialFormValues);
         // }
-
-
     
     }, [farmData]);
 
@@ -85,23 +79,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
     const onFormSubmit = (e) =>{
         e.preventDefault()
         setIsLoading(true);
-        let requestBylotes= [];
-
-        for(let i= 0; i < lotesSelected.length; i++){
-
-            
-            consumeAPI(urlApi, formValues)
-            
-            //setReturnedData(changedReturnedData);
-            //let currentResponse = consumeAPI(urlApi, formValues);
-            //console.log(returnedData);
-            //requestBylotes.push(currentResponse);
-
-        }
-
-        setReturnedData(requestBylotes);
-        console.log(requestBylotes);
-        //localStorage.setItem('formValues',  JSON.stringify(formValues));
+        consumeAPI(urlApi, formValues)
     }
     
     const handleSearch = (e) => {
@@ -113,35 +91,16 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
         
     }
 
-    const handleInitialMonthSelect = (e) => {
-
-        
-        
-        const changedMonthsValues = {
-            ...formValues,
-            initialMonth: e
-        }
-        setFormValues(changedMonthsValues);
-
-    }
-
-    const handleFinalMonthSelect = (e) => {
-
-        
-        
-        const changedMonthsValues = {
-            ...formValues,
-            finalMonth: e
-        }
-        setFormValues(changedMonthsValues);
-
-    }
-
     const lotesOnChange = (value) => {
-        
+        const changedFormValues = {
+            ...formValues,
+            lotes: value
+            
+        }
         setLotesSelected(value);
-        
+        setFormValues(changedFormValues);
     }
+    
 
     
 
@@ -152,6 +111,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
 
         <Form onSubmit={onFormSubmit} >
 
+
             <Row className="mb-3">
                 <h6>Ingresa el nombre de una finca y luego selecciona uno o más lotes</h6>
                 
@@ -161,7 +121,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                     aria-label="Example text with button addon"
                     aria-describedby="basic-addon1"
                     placeholder="Nombre finca"
-                    onChange={e => setFormValues({ farm: e.target.value })}
+                    onChange={e => setFormValues({ ...formValues, farm: e.target.value })}
                     />
                     <Button 
                         variant="outline-primary" 
@@ -188,14 +148,16 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                 </Form.Group>
             </Row>
 
+
+
             <Row>
                 <h6>Selecciona un semestre</h6>
                 <Form.Group as={Col} controlId="formGridInitialMonth">
                 
-                    <FloatingLabel controlId="floatingSelectInitialMonth" label={formValues.initialMonth}>
+                    <FloatingLabel controlId="floatingSelectInitialMonth" label="Mes inicial">
                         <Form.Select 
                             aria-label="Floating label select example"
-                            onSelect={handleInitialMonthSelect}
+                            onChange={e => setFormValues({ ...formValues, initialMonth: e.target.value })}
                             
                         >
                             <option>Selecciona un mes</option>
@@ -215,10 +177,10 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridFinalMonth">
                 
-                    <FloatingLabel controlId="floatingSelectInitialMonth" label={formValues.finalMonth}>
+                    <FloatingLabel controlId="floatingSelectFinalMonth" label="Mes final">
                         <Form.Select 
                             aria-label="Floating label select example"
-                            onSelect={handleFinalMonthSelect}
+                            onChange={e => setFormValues({ ...formValues, finalMonth: e.target.value })}
                             
                         >
                             <option>Selecciona un mes</option>
@@ -239,6 +201,10 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
 
 
             </Row>
+
+            
+            
+
             <Row className="mt-4 mx-auto" style={{width: '825px'}}>
                 <Col
                     className="d-grid gap-2"

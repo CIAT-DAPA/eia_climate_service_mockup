@@ -55,7 +55,12 @@ const App = () => {
   const consumeAPI = (request, formData) => {
     
     if(isOnline){
-      fetch(request).then(async (response) => {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    };
+      fetch(request, requestOptions).then(async (response) => {
             if (response.ok) {
               setError(null);
               setIsLoading(false);
