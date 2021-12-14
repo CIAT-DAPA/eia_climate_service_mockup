@@ -4,8 +4,8 @@ import { Table} from "react-bootstrap";
 const Results = (returnedData) => {
     
     let returnedDataFixed = returnedData.returnedData;
-    console.log(returnedData);
-    console.log(returnedDataFixed);
+    
+    //console.log(returnedDataFixed);
 
     useEffect(() => {
         returnedDataFixed = returnedData.returnedData;
@@ -21,28 +21,62 @@ const Results = (returnedData) => {
 
         <div >
 
-            <h6>Resultados</h6>
-            <Table striped bordered hover size="sm">
-                
-                <thead>
-                    <tr>
-        
-                    <th>Predictors</th>
-                    <th>Current</th>
-                    <th>Optimal</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <h6 className="mb-4">Resultados</h6>
 
                 
                     {   //Se recorre el objeto (que eran un json antes de estar en este componente) y se ponen los datos en la tabla
-                        Object.keys(returnedDataFixed.predictors).map((predictor, i)=>(
+                        returnedDataFixed.map((predictorsByLote, i)=>(
+                            <div>
+                                
 
-                            <tr>
-                                <td>{predictor}</td>
-                                <td>{returnedDataFixed.predictors[predictor].current}</td>
-                                <td>{returnedDataFixed.predictors[predictor].optimal}</td>
-                            </tr>
+                            <Table striped bordered hover size="sm">
+                                    <thead>
+                                        <th>{predictorsByLote['lote']}</th>
+                                    </thead>
+                                    <thead>
+                                        <tr>
+                                        <th>Predictors</th>
+                                        <th>Current</th>
+                                        <th>Optimal</th>
+                                        </tr>
+                                    </thead>
+
+                                        {   //Aquí se leen los resultados. Debido a que son arrays anidados, se deben leer los resultados de esa manera.
+                                            // predictorsByLote.predictors - todos los predictores
+                                            // currentPredictor - la llave del primero predictor. Es una posicion en el arreglo
+                                            // Object.keys(predictorsByLote.predictors[currentPredictor]) - el nombre del predictor
+                                            Object.keys(predictorsByLote.predictors).map((currentPredictor, i)=>(
+                                                <tbody>
+            
+                                                
+                                                
+                                                <tr> 
+                                                    <td>{Object.keys(predictorsByLote.predictors[currentPredictor])}</td>
+                                                    <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].current}</td>
+                                                    <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].optimal}</td>
+
+                                                </tr>
+                                                </tbody>
+            
+                                                )
+                    
+                                            )
+
+                                        }
+
+                                       
+
+
+                                    <thead>
+                                        <tr>
+                            
+                                        <th>Yield</th>
+                                        <th>{predictorsByLote['yield'].current}</th>
+                                        <th>{predictorsByLote['yield'].optimal}</th>
+                                        </tr>
+                                    </thead>
+                            </Table>
+                            </div>
                             )
 
                         )
@@ -50,17 +84,6 @@ const Results = (returnedData) => {
                 
 
                     
-                </tbody>
-
-                <thead>
-                    <tr>
-        
-                    <th>Yield</th>
-                    <th>{returnedDataFixed['yield'].current}</th>
-                    <th>{returnedDataFixed['yield'].optimal}</th>
-                    </tr>
-                </thead>
-            </Table>
         </div>
 
 
