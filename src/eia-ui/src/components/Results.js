@@ -19,9 +19,9 @@ const Results = (returnedData) => {
     
     return(
 
-        <div >
+        <div className="mt-4">
 
-            <h6 className="mb-4">Resultados</h6>
+            
 
                 
                     {   //Se recorre el objeto (que eran un json antes de estar en este componente) y se ponen los datos en la tabla
@@ -35,9 +35,9 @@ const Results = (returnedData) => {
                                     </thead>
                                     <thead>
                                         <tr>
-                                        <th>Predictors</th>
-                                        <th>Current</th>
-                                        <th>Optimal</th>
+                                        <th>Predictores</th>
+                                        <th>Actual</th>
+                                        <th>Óptimo</th>
                                         </tr>
                                     </thead>
 
@@ -70,7 +70,7 @@ const Results = (returnedData) => {
                                     <thead>
                                         <tr>
                             
-                                        <th>Yield</th>
+                                        <th>Rendimiento</th>
                                         <th>{predictorsByLote['yield'].current}</th>
                                         <th>{predictorsByLote['yield'].optimal}</th>
                                         </tr>

@@ -134,7 +134,7 @@ const setDataFormat = (data) => {
   [
     {key: 'DIST_PLANTAS', values:[]}, 
     {key: 'DIST_SURCOS', values:[]}, 
-    {key: 'NUM_SEMILLAS', values:[]}, 
+    {key: 'NUM_SEMILLAS', values:[]},
     {key: 'OBJ_RDT', values:[]}, 
     {key: 'POBLACION_20DIAS', values:[]}, 
     {key: 'RDT', values:[]},
@@ -146,45 +146,45 @@ const setDataFormat = (data) => {
   
 
   for(const d in data) {
-    console.log(d);
+    
     for(const k in scatterDataFormatted){
-      console.log(k);
+      
 
       switch(scatterDataFormatted[k].key){
         case 'DIST_PLANTAS':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].DIST_PLANTAS});
+          scatterDataFormatted[k].values.push({"x": data[d].DIST_PLANTAS, "y": data[d].production_har});
           break;
 
         case 'DIST_SURCOS':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].DIST_SURCOS});
+          scatterDataFormatted[k].values.push({"x": data[d].DIST_SURCOS, "y": data[d].production_har});
           break;
         
         case 'NUM_SEMILLAS':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].NUM_SEMILLAS});
+          scatterDataFormatted[k].values.push({"x": data[d].NUM_SEMILLAS, "y": data[d].production_har});
           break;
 
         case 'OBJ_RDT':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].OBJ_RDT});
+          scatterDataFormatted[k].values.push({"x": data[d].OBJ_RDT, "y": data[d].production_har});
           break;
         
         case 'POBLACION_20DIAS':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].POBLACION_20DIAS});
+          scatterDataFormatted[k].values.push({"x": data[d].POBLACION_20DIAS, "y": data[d].production_har});
           break;
 
         case 'RDT':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].RDT});
+          scatterDataFormatted[k].values.push({"x": data[d].RDT, "y": data[d].production_har});
           break;
         
         case 'SEM_POR_SITIO':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].SEM_POR_SITIO});
+          scatterDataFormatted[k].values.push({"x": data[d].SEM_POR_SITIO, "y": data[d].production_har});
           break;
         
         case 'area_fie':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].area_fie});
+          scatterDataFormatted[k].values.push({"x": data[d].area_fie, "y": data[d].production_har});
           break;
         
         case 'humidity_percentage_har':
-          scatterDataFormatted[k].values.push({x: data[d].production_har, y: data[d].humidity_percentage_har});
+          scatterDataFormatted[k].values.push({"x": data[d].humidity_percentage_har, "y": data[d].production_har});
           break;
         
         default:
@@ -208,6 +208,7 @@ const setDataFormat = (data) => {
     <Container className="mt-4" fluid>
 
       <Row>
+      <h4 className="mb-4">Ingreso de datos</h4>
       <CoordinatesForm
             selectedPosition={selectedPosition}
             urlApi={urlApi}
@@ -226,8 +227,10 @@ const setDataFormat = (data) => {
       </Row>
 
       <Row className="mt-4">
+      <h4 className="mb-4">Resultados de optimización, mapa y tabla</h4>
 
         <Col>
+          <h6>En el mapa podrá ver la ubicación de los lotes seleccionados</h6>
           <MapView
             selectedPosition={selectedPosition}
             lotesSelected={lotesSelected}
@@ -236,13 +239,15 @@ const setDataFormat = (data) => {
             
           />
 
-          <div id="barChart"></div>
+          <Row>
+            {
+              cuantitativeData && <Charts className="mt-4"
+                              cuantitativeData={cuantitativeData}
+                              />
+            }
+
+          </Row>
           
-          {
-            returnedData && <Charts className="mt-4"
-                            cuantitativeData={cuantitativeData}
-                            />
-          }
 
             
       

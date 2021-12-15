@@ -23,14 +23,14 @@ const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Diciembre"]
 
 const predictors=[
-    {value: 'number_of_post_sowing_herbicides_applications', label: 'number_of_post_sowing_herbicides_applications'},
-    {value: 'number_of_applications_of_insecticides', label: 'number_of_applications_of_insecticides'},
-    {value: 'total_amount_of_nitrogen_applied_kg_ha', label: 'total_amount_of_nitrogen_applied_kg_ha'},
-    {value: 'total_amount_of_phosporus_applied_kg_ha', label: 'total_amount_of_phosporus_applied_kg_ha'},
-    {value: 'total_amount_of_potassium_applied', label: 'total_amount_of_potassium_applied'},
-    {value: 'cultivars_group', label: 'cultivars_group'},
-    {value: 'seed_treatment', label: 'seed_treatment'},
-    {value: 'conservation_agriculture', label: 'conservation_agriculture'},
+    {value: 'número de aplicaciones de herbicidas posteriores a la siembra', label: 'número de aplicaciones de herbicidas posteriores a la siembra'},
+    {value: 'número de aplicaciones de insecticidas', label: 'número de aplicaciones de insecticidas'},
+    {value: 'cantidad total de nitrógeno aplicado kg / ha', label: 'cantidad total de nitrógeno aplicado kg / ha'},
+    {value: 'cantidad total de fósforo aplicado kg / ha', label: 'cantidad total de fósforo aplicado kg / ha'},
+    {value: 'cantidad total de potasio aplicada', label: 'cantidad total de potasio aplicada'},
+    {value: 'grupo de cultivares', label: 'grupo de cultivares'},
+    {value: 'tratamiento de semillas', label: 'tratamiento de semillas'},
+    {value: 'agricultura de conservación', label: 'agricultura de conservación'},
 
 ]
 

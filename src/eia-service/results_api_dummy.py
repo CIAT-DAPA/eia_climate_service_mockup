@@ -20,6 +20,8 @@ yield_and_cuantitative = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv
     usecols={"production_har", "NUM_SEMILLAS", "DIST_SURCOS", "DIST_PLANTAS", "SEM_POR_SITIO",
         "OBJ_RDT", "POBLACION_20DIAS", "RDT", "humidity_percentage_har", "area_fie"})
 
+yield_and_cuantitative = yield_and_cuantitative.dropna()
+
 
 info_farms_for_searching['FINCA'] = info_farms_for_searching['FINCA'].str.upper()
 info_farms_for_searching['NOMBRE_LOTE'] = info_farms_for_searching['NOMBRE_LOTE'].str.upper()
