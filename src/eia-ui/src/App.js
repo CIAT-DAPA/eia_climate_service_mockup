@@ -5,7 +5,7 @@ import CoordinatesForm from "./components/CoordinatesForm";
 import Results from "./components/Results";
 import Charts from "./components/Charts"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Container, Spinner } from "react-bootstrap";
+import { Row, Col, Container, Spinner, Card, Image } from "react-bootstrap";
 
 const App = () => {
 
@@ -18,6 +18,7 @@ const App = () => {
   const [farmData, setFarmData] = useState();
   const [lotesSelected, setLotesSelected] = useState();
   const [cuantitativeData, setCuantitativeData] = useState();
+  const [cualitativeData, setCualitativeData] = useState();
   
   const [error, setError] = useState(null);
 
@@ -25,6 +26,7 @@ const App = () => {
   const urlApi = "http://localhost:105/dummy"
   const urlSearch = "http://localhost:105/farm/"
   const urlCuantitativeData = "http://localhost:105/cuantitative_data"
+  const urlCualitativeData = "http://localhost:105/cualitative_data"
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -71,6 +73,7 @@ const App = () => {
               setError(null);
               setIsLoading(false);
               getCuantitativeData(); //Datos para las tablas
+              getCualitativeData();
             } else{
               setError(await response.text());
               
@@ -114,7 +117,7 @@ const getCuantitativeData = () => {
   fetch(request).then(async (response) => {
     if (response.ok) {
       //console.log(await response.json());
-      setDataFormat(await response.json());
+      setDataCuantitativeFormat(await response.json());
      
     } else{
       setError(await response.text());
@@ -127,64 +130,81 @@ const getCuantitativeData = () => {
 
 }
 
-const setDataFormat = (data) => {
+const getCualitativeData = () => {
+  let request = urlCualitativeData;
+
+  fetch(request).then(async (response) => {
+    if (response.ok) {
+      //console.log(await response.json());
+      setDataCualitativeFormat(await response.json());
+     
+    } else{
+      setError(await response.text());
+      
+    }
+  })
+  .catch((err) => {
+    setError(err.message);
+  });
+
+}
+
+const setDataCuantitativeFormat = (data) => {
   
 
   let scatterDataFormatted = 
   [
-    {key: 'DIST_PLANTAS', values:[]}, 
-    {key: 'DIST_SURCOS', values:[]}, 
-    {key: 'NUM_SEMILLAS', values:[]},
-    {key: 'OBJ_RDT', values:[]}, 
-    {key: 'POBLACION_20DIAS', values:[]}, 
-    {key: 'RDT', values:[]},
-    {key: 'SEM_POR_SITIO', values:[]},
-    {key: 'area_fie', values:[]},
-    {key: 'humidity_percentage_har', values:[]}
+    {name: 'DIST_PLANTAS', data:[]}, 
+    {name: 'DIST_SURCOS', data:[]}, 
+    {name: 'NUM_SEMILLAS', data:[]},
+    {name: 'OBJ_RDT', data:[]}, 
+    {name: 'POBLACION_20DIAS', data:[]}, 
+    {name: 'production_har', data:[]},
+    {name: 'SEM_POR_SITIO', data:[]},
+    {name: 'area_fie', data:[]},
+    {name: 'humidity_percentage_har', data:[]}
   ]
-
-  
 
   for(const d in data) {
     
     for(const k in scatterDataFormatted){
       
 
-      switch(scatterDataFormatted[k].key){
+      switch(scatterDataFormatted[k].name){
         case 'DIST_PLANTAS':
-          scatterDataFormatted[k].values.push({"x": data[d].DIST_PLANTAS, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].DIST_PLANTAS, data[d].RDT);
           break;
 
         case 'DIST_SURCOS':
-          scatterDataFormatted[k].values.push({"x": data[d].DIST_SURCOS, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].DIST_SURCOS, data[d].RDT);
           break;
         
         case 'NUM_SEMILLAS':
-          scatterDataFormatted[k].values.push({"x": data[d].NUM_SEMILLAS, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].NUM_SEMILLAS, data[d].RDT);
           break;
 
         case 'OBJ_RDT':
-          scatterDataFormatted[k].values.push({"x": data[d].OBJ_RDT, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].OBJ_RDT, data[d].RDT);
           break;
         
         case 'POBLACION_20DIAS':
-          scatterDataFormatted[k].values.push({"x": data[d].POBLACION_20DIAS, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].POBLACION_20DIAS, data[d].RDT);
           break;
 
-        case 'RDT':
-          scatterDataFormatted[k].values.push({"x": data[d].RDT, "y": data[d].production_har});
+        case 'production_har':
+          scatterDataFormatted[k].data.push(data[d].production_har, data[d].RDT);
           break;
         
         case 'SEM_POR_SITIO':
-          scatterDataFormatted[k].values.push({"x": data[d].SEM_POR_SITIO, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].SEM_POR_SITIO, data[d].RDT);
           break;
         
         case 'area_fie':
-          scatterDataFormatted[k].values.push({"x": data[d].area_fie, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].area_fie, data[d].RDT);
           break;
         
         case 'humidity_percentage_har':
-          scatterDataFormatted[k].values.push({"x": data[d].humidity_percentage_har, "y": data[d].production_har});
+          scatterDataFormatted[k].data.push(data[d].humidity_percentage_har, data[d].RDT);
           break;
         
         default:
@@ -200,6 +220,79 @@ const setDataFormat = (data) => {
 
 }
 
+const setDataCualitativeFormat = (data) => {
+  
+
+  let boxPlotDataFormatted = 
+  [
+    {name: 'TIPO_SIEMBRA', data:[]}, 
+    {name: 'SEM_TRATADAS', data:[]}, 
+    {name: 'TIPO_CULTIVO', data:[]},
+    {name: 'COLOR_ENDOSPERMO', data:[]}, 
+    {name: 'MATERIAL_GENETICO', data:[]}, 
+    {name: 'CULT_ANT', data:[]},
+    {name: 'DRENAJE', data:[]},
+    {name: 'METODO_COSECHA', data:[]},
+    {name: 'PROD_COSECHADO', data:[]},
+    {name: 'NOMBRE_LOTE', data:[]},
+    {name: 'name_gen_sow', data:[]},
+    {name: 'ALMACENAMIENTO_FINCA', data:[]}
+  ]
+
+  for(const d in data) {
+    
+    for(const k in boxPlotDataFormatted){
+      
+
+      switch(scatterDataFormatted[k].name){
+        case 'DIST_PLANTAS':
+          boxPlotDataFormatted[k].data.push(data[d].DIST_PLANTAS, data[d].RDT);
+          break;
+
+        case 'DIST_SURCOS':
+          boxPlotDataFormatted[k].data.push(data[d].DIST_SURCOS, data[d].RDT);
+          break;
+        
+        case 'NUM_SEMILLAS':
+          boxPlotDataFormatted[k].data.push(data[d].NUM_SEMILLAS, data[d].RDT);
+          break;
+
+        case 'OBJ_RDT':
+          boxPlotDataFormatted[k].data.push(data[d].OBJ_RDT, data[d].RDT);
+          break;
+        
+        case 'POBLACION_20DIAS':
+          boxPlotDataFormatted[k].data.push(data[d].POBLACION_20DIAS, data[d].RDT);
+          break;
+
+        case 'production_har':
+          boxPlotDataFormatted[k].data.push(data[d].production_har, data[d].RDT);
+          break;
+        
+        case 'SEM_POR_SITIO':
+          boxPlotDataFormatted[k].data.push(data[d].SEM_POR_SITIO, data[d].RDT);
+          break;
+        
+        case 'area_fie':
+          boxPlotDataFormatted[k].data.push(data[d].area_fie, data[d].RDT);
+          break;
+        
+        case 'humidity_percentage_har':
+          boxPlotDataFormatted[k].data.push(data[d].humidity_percentage_har, data[d].RDT);
+          break;
+        
+        default:
+  
+
+      }
+     
+    
+
+    }
+  }
+  setCualitativeData(boxPlotDataFormatted);
+
+}
 
   
 
@@ -242,7 +335,7 @@ const setDataFormat = (data) => {
           <Row>
             {
               cuantitativeData && <Charts className="mt-4"
-                              cuantitativeData={cuantitativeData}
+                              cuantitativeData={cuantitativeData, cualitativeData}
                               />
             }
 
@@ -279,6 +372,27 @@ const setDataFormat = (data) => {
 
       
 
+      </Row>
+      <Row>
+        <Card
+           bg={'Light'.toLowerCase()}
+           text={'black'}
+        >
+          <Card.Header><h6>En colaboración de</h6></Card.Header>
+            <Card.Body>
+              <Row className="justify-content-md-center">
+                <Col xs lg="2">
+                  <img src={require('./images/fenalce.png')} height={80} width={211}/>
+                </Col>
+                <Col md="auto">
+                  <img src={require('./images/cimmyt.png')} height={100} width={250}/>
+                </Col>
+                <Col xs lg="2">
+                  <img src={require('./images/alliance.png')} height={101} width={212.8}/>
+                </Col>
+              </Row>
+            </Card.Body>
+      </Card>
       </Row>
       
 

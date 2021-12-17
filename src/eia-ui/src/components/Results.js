@@ -70,7 +70,7 @@ const Results = (returnedData) => {
                                     <thead>
                                         <tr>
                             
-                                        <th>Rendimiento</th>
+                                        <th>Rendimiento t/ha</th>
                                         <th>{predictorsByLote['yield'].current}</th>
                                         <th>{predictorsByLote['yield'].optimal}</th>
                                         </tr>
