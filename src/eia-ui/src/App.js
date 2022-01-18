@@ -151,145 +151,83 @@ const getCualitativeData = () => {
 
 const setDataCuantitativeFormat = (data) => {
   
+  
 
   let scatterDataFormatted = 
   [
-    {name: 'DIST_PLANTAS', data:[]}, 
-    {name: 'DIST_SURCOS', data:[]}, 
-    {name: 'NUM_SEMILLAS', data:[]},
-    {name: 'OBJ_RDT', data:[]}, 
-    {name: 'POBLACION_20DIAS', data:[]}, 
-    {name: 'production_har', data:[]},
-    {name: 'SEM_POR_SITIO', data:[]},
-    {name: 'area_fie', data:[]},
-    {name: 'humidity_percentage_har', data:[]}
+    {name: 'DIST_PLANTAS', data:[], farm: ''}, 
+    {name: 'DIST_SURCOS', data:[], farm: ''}, 
+    {name: 'NUM_SEMILLAS', data:[], farm: ''},
+    {name: 'OBJ_RDT', data:[], farm: ''}, 
+    {name: 'POBLACION_20DIAS', data:[], farm: ''}, 
+    {name: 'production_har', data:[], farm: ''},
+    {name: 'SEM_POR_SITIO', data:[], farm: ''},
+    {name: 'area_fie', data:[], farm: ''},
+    {name: 'humidity_percentage_har', data:[], farm: ''}
   ]
-
+  
   for(const d in data) {
     
     for(const k in scatterDataFormatted){
-      
 
-      switch(scatterDataFormatted[k].name){
-        case 'DIST_PLANTAS':
-          scatterDataFormatted[k].data.push(data[d].DIST_PLANTAS, data[d].RDT);
-          break;
-
-        case 'DIST_SURCOS':
-          scatterDataFormatted[k].data.push(data[d].DIST_SURCOS, data[d].RDT);
-          break;
-        
-        case 'NUM_SEMILLAS':
-          scatterDataFormatted[k].data.push(data[d].NUM_SEMILLAS, data[d].RDT);
-          break;
-
-        case 'OBJ_RDT':
-          scatterDataFormatted[k].data.push(data[d].OBJ_RDT, data[d].RDT);
-          break;
-        
-        case 'POBLACION_20DIAS':
-          scatterDataFormatted[k].data.push(data[d].POBLACION_20DIAS, data[d].RDT);
-          break;
-
-        case 'production_har':
-          scatterDataFormatted[k].data.push(data[d].production_har, data[d].RDT);
-          break;
-        
-        case 'SEM_POR_SITIO':
-          scatterDataFormatted[k].data.push(data[d].SEM_POR_SITIO, data[d].RDT);
-          break;
-        
-        case 'area_fie':
-          scatterDataFormatted[k].data.push(data[d].area_fie, data[d].RDT);
-          break;
-        
-        case 'humidity_percentage_har':
-          scatterDataFormatted[k].data.push(data[d].humidity_percentage_har, data[d].RDT);
-          break;
-        
-        default:
-  
-
-      }
-     
-    
+        scatterDataFormatted[k].data.push(data[d][scatterDataFormatted[k].name], data[d].RDT);
+        //scatterDataFormatted[k].farm = data[d].NOMBRE_LOTE; 
 
     }
   }
+  console.log(scatterDataFormatted);
   setCuantitativeData(scatterDataFormatted);
 
 }
 
 const setDataCualitativeFormat = (data) => {
+  console.log(data);
   
 
-  let boxPlotDataFormatted = 
-  [
-    {name: 'TIPO_SIEMBRA', data:[]}, 
-    {name: 'SEM_TRATADAS', data:[]}, 
-    {name: 'TIPO_CULTIVO', data:[]},
-    {name: 'COLOR_ENDOSPERMO', data:[]}, 
-    {name: 'MATERIAL_GENETICO', data:[]}, 
-    {name: 'CULT_ANT', data:[]},
-    {name: 'DRENAJE', data:[]},
-    {name: 'METODO_COSECHA', data:[]},
-    {name: 'PROD_COSECHADO', data:[]},
-    {name: 'NOMBRE_LOTE', data:[]},
-    {name: 'name_gen_sow', data:[]},
-    {name: 'ALMACENAMIENTO_FINCA', data:[]}
-  ]
+  // let boxPlotDataFormatted = 
+  // [
+  //   {name: 'TIPO_SIEMBRA', data:[]}, 
+  //   {name: 'SEM_TRATADAS', data:[]}, 
+  //   {name: 'TIPO_CULTIVO', data:[]},
+  //   {name: 'COLOR_ENDOSPERMO', data:[]}, 
+  //   {name: 'MATERIAL_GENETICO', data:[]}, 
+  //   {name: 'CULT_ANT', data:[]},
+  //   {name: 'DRENAJE', data:[]},
+  //   {name: 'METODO_COSECHA', data:[]},
+  //   {name: 'PROD_COSECHADO', data:[]},
+  //   {name: 'NOMBRE_LOTE', data:[]},
+  //   {name: 'name_gen_sow', data:[]},
+  //   {name: 'ALMACENAMIENTO_FINCA', data:[]}
+  // ]
 
-  for(const d in data) {
-    
-    for(const k in boxPlotDataFormatted){
-      
+  let boxPlotDataFormatted = new Map();
+  const keys = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
+    'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
+    'TIPO_SIEMBRA', 'name_gen_sow'];
+  let finalDataArrayFormatted = [];
 
-      switch(scatterDataFormatted[k].name){
-        case 'DIST_PLANTAS':
-          boxPlotDataFormatted[k].data.push(data[d].DIST_PLANTAS, data[d].RDT);
-          break;
+  for(const d in data){
 
-        case 'DIST_SURCOS':
-          boxPlotDataFormatted[k].data.push(data[d].DIST_SURCOS, data[d].RDT);
-          break;
-        
-        case 'NUM_SEMILLAS':
-          boxPlotDataFormatted[k].data.push(data[d].NUM_SEMILLAS, data[d].RDT);
-          break;
-
-        case 'OBJ_RDT':
-          boxPlotDataFormatted[k].data.push(data[d].OBJ_RDT, data[d].RDT);
-          break;
-        
-        case 'POBLACION_20DIAS':
-          boxPlotDataFormatted[k].data.push(data[d].POBLACION_20DIAS, data[d].RDT);
-          break;
-
-        case 'production_har':
-          boxPlotDataFormatted[k].data.push(data[d].production_har, data[d].RDT);
-          break;
-        
-        case 'SEM_POR_SITIO':
-          boxPlotDataFormatted[k].data.push(data[d].SEM_POR_SITIO, data[d].RDT);
-          break;
-        
-        case 'area_fie':
-          boxPlotDataFormatted[k].data.push(data[d].area_fie, data[d].RDT);
-          break;
-        
-        case 'humidity_percentage_har':
-          boxPlotDataFormatted[k].data.push(data[d].humidity_percentage_har, data[d].RDT);
-          break;
-        
-        default:
+    for(let k=0; k < keys.length; k ++){
   
-
-      }
-     
-    
+        if(boxPlotDataFormatted.has(data[d][keys[k]])){
+          let adittion = boxPlotDataFormatted.get(data[d][keys[k]]);
+          adittion.rdt.push(data[d].RDT);
+          boxPlotDataFormatted.set(data[d][keys[k]], adittion);
+        }
+        else{
+          boxPlotDataFormatted.set(data[d][keys[k]], {managmentPractice: keys[k], rdt: [data[d].RDT]});
+        }
 
     }
+    
   }
+  // for (var [key, value] of boxPlotDataFormatted) {
+  //   alert(key + " = " + value);
+  //   finalDataArrayFormatted.push({x: key, y: value});
+  // }
+
+  console.log(boxPlotDataFormatted);
   setCualitativeData(boxPlotDataFormatted);
 
 }
@@ -334,9 +272,11 @@ const setDataCualitativeFormat = (data) => {
 
           <Row>
             {
-              cuantitativeData && <Charts className="mt-4"
-                              cuantitativeData={cuantitativeData, cualitativeData}
-                              />
+              cuantitativeData && <Charts 
+                                    className="mt-4" 
+                                    cuantitativeData={cuantitativeData}
+                                    cualitativeData={cualitativeData}
+                                  />
             }
 
           </Row>

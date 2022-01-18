@@ -95,8 +95,10 @@ const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
             )
           }
           <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            
+            url='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+            maxZoom= {20}
+            subdomains={['mt1','mt2','mt3']}
           />
           
           

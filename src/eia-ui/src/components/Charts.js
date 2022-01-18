@@ -11,24 +11,45 @@ const styles = {
   
 };
 
-const variables = ["DIST_PLANTAS", "DIST_SURCOS", "NUM_SEMILLAS", "OBJ_RDT",
+const variablesCuantitatives = ["DIST_PLANTAS", "DIST_SURCOS", "NUM_SEMILLAS", "OBJ_RDT",
   "POBLACION_20DIAS", "production_har", "SEM_POR_SITIO", "area_fie", "humidity_percentage_har"
 
 ]
 
-const Charts = ({cuantitativeData}) => {
+const variablesCualitatives = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
+    'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
+    'TIPO_SIEMBRA', 'name_gen_sow'];
 
-  const [dataFilter, setDataFilter] = useState([]);
+const Charts = ({cuantitativeData, cualitativeData}) => {
 
-    const variableOnChange = (e) => {
-      
-      var result = cuantitativeData.filter(obj => {
-        return obj.name === e
-      })
-      
-      setDataFilter(result);
+  const [cuantitativeDataFilter, setCuantitativeDataFilter] = useState([]);
+  const [cualitativeDataFilter, setCualitativeDataFilter] = useState([]);
 
+    const variableOnChangeCuantitativeData = (e) => {
 
+      //console.log(cuantitativeData);
+
+      if(cuantitativeData){
+        var result = cuantitativeData.filter(obj => {
+          return obj.name === e
+        })
+        
+        setCuantitativeDataFilter(result);
+      }
+
+    }
+
+    const variableOnChangeCualitativeData = (e) => {
+
+      console.log(cualitativeData);
+
+      if(cualitativeData){
+        var result = cuantitativeData.filter(obj => {
+          return obj.name === e
+        })
+        
+        setCuantitativeDataFilter(result);
+      }
 
     }
 
@@ -40,34 +61,12 @@ const Charts = ({cuantitativeData}) => {
           {
             type: 'boxPlot',
             data: [
-              {
-                x: 'Jan 2015',
-                y: [54, 66, 69, 75, 88]
-              },
+
               {
                 x: 'Jan 2016',
                 y: [43, 65, 69, 76, 81]
-              },
-              {
-                x: 'Jan 2017',
-                y: [31, 39, 45, 51, 59]
-              },
-              {
-                x: 'Jan 2018',
-                y: [39, 46, 55, 65, 71]
-              },
-              {
-                x: 'Jan 2019',
-                y: [29, 31, 35, 39, 44]
-              },
-              {
-                x: 'Jan 2020',
-                y: [41, 49, 58, 61, 67]
-              },
-              {
-                x: 'Jan 2021',
-                y: [54, 59, 66, 71, 88]
               }
+             
             ]
           }
         ],
@@ -142,7 +141,7 @@ const Charts = ({cuantitativeData}) => {
         }
         
         return(
-          <Chart options={options} series={dataFilter} type="scatter" height={350} />
+          <Chart options={options} series={cuantitativeDataFilter} type="scatter" height={350} />
         );
           
     }
@@ -162,12 +161,12 @@ const Charts = ({cuantitativeData}) => {
                                 <FloatingLabel controlId="floatingSelectInitialMonth" label="Seleccione variable a comparar con el rendimiento">
                                     <Form.Select 
                                         aria-label="Floating label select example"
-                                        onChange={e => variableOnChange(e.target.value)}
+                                        onChange={e => variableOnChangeCuantitativeData(e.target.value)}
                                         
                                     >
                                         <option>Seleccionar</option>
                                         {
-                                        variables.map( variable => (
+                                        variablesCuantitatives.map( variable => (
                                             
                                             <option>{variable}</option>
 
@@ -182,10 +181,38 @@ const Charts = ({cuantitativeData}) => {
                 </Form.Group>
               
                 {
-                  dataFilter && <Scatter/>
+                  cuantitativeDataFilter && <Scatter/> 
                 }
 
-                <Boxplot/>
+                <Form.Group as={Col} controlId="formGridSelectPredictor">
+                                
+                                <FloatingLabel controlId="floatingSelectInitialMonth" label="Seleccione variable a comparar con el rendimiento">
+                                    <Form.Select 
+                                        aria-label="Floating label select example"
+                                        onChange={e => variableOnChangeCualitativeData(e.target.value)}
+                                        
+                                    >
+                                        <option>Seleccionar</option>
+                                        {
+                                        variablesCualitatives.map( variable => (
+                                            
+                                            <option>{variable}</option>
+
+                                                )
+
+                                            )
+                                        }
+                                        
+                                    </Form.Select>
+                                </FloatingLabel>
+
+                </Form.Group>
+              
+                {
+                  cuantitativeDataFilter && <Boxplot/> 
+                }
+
+                
             
             </Col>
 
