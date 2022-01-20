@@ -27,28 +27,31 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
 
     const variableOnChangeCuantitativeData = (e) => {
 
-      //console.log(cuantitativeData);
-
       if(cuantitativeData){
         var result = cuantitativeData.filter(obj => {
           return obj.name === e
         })
-        
+        console.log('holaa');
         setCuantitativeDataFilter(result);
+        
       }
 
     }
 
     const variableOnChangeCualitativeData = (e) => {
 
-      console.log(cualitativeData);
-
       if(cualitativeData){
-        var result = cuantitativeData.filter(obj => {
-          return obj.name === e
+        var result = cualitativeData.filter(obj => {
+          return obj.value.managmentPractice === e
         })
-        
-        setCuantitativeDataFilter(result);
+        console.log(result);
+        var finalFormat = [];
+        for(const i in result){
+          finalFormat.push({x: result[i].key, y: result[i].value.rdt});
+
+        }
+        console.log(finalFormat);
+        setCualitativeDataFilter(finalFormat);
       }
 
     }
@@ -57,17 +60,11 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
 
       let state = {
           
-        series: [
+        series: 
+        [
           {
             type: 'boxPlot',
-            data: [
-
-              {
-                x: 'Jan 2016',
-                y: [43, 65, 69, 76, 81]
-              }
-             
-            ]
+            data: cualitativeDataFilter
           }
         ],
         options: {
@@ -76,7 +73,7 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
             height: 350
           },
           title: {
-            text: 'Rendimiento vs prácticas de manejo en Boxplot',
+            text: 'Rendimiento vs prácticas de manejo en Boxplot para datos cualitativos',
             align: 'left'
           },
           plotOptions: {
@@ -123,7 +120,7 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
             }
           },
           title: {
-            text: 'Rendimiento vs prácticas de manejo en Scatterplot',
+            text: 'Rendimiento vs prácticas de manejo en Scatterplot para datos cuantitativos',
             align: 'left'
           },
           xaxis: {

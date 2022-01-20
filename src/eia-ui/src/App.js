@@ -200,35 +200,57 @@ const setDataCualitativeFormat = (data) => {
   //   {name: 'ALMACENAMIENTO_FINCA', data:[]}
   // ]
 
-  let boxPlotDataFormatted = new Map();
   const keys = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
     'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
     'TIPO_SIEMBRA', 'name_gen_sow'];
+  //Initializes keys in order to simplify the loop
+  let boxPlotDataFormatted = new Map([[keys[0], new Map()], [keys[1], new Map()],[keys[2], new Map()], [keys[3], new Map()],
+    [keys[4], new Map()], [keys[5], new Map()], [keys[6], new Map()], [keys[7], new Map()], [keys[8], new Map()], [keys[9], new Map()],
+    [keys[10], new Map()]]);
+  console.log(boxPlotDataFormatted)
   let finalDataArrayFormatted = [];
 
   for(const d in data){
 
     for(let k=0; k < keys.length; k ++){
-  
-        if(boxPlotDataFormatted.has(data[d][keys[k]])){
-          let adittion = boxPlotDataFormatted.get(data[d][keys[k]]);
-          adittion.rdt.push(data[d].RDT);
-          boxPlotDataFormatted.set(data[d][keys[k]], adittion);
-        }
-        else{
-          boxPlotDataFormatted.set(data[d][keys[k]], {managmentPractice: keys[k], rdt: [data[d].RDT]});
-        }
+
+      let currentKey = keys[k];
+      let currentCualitativeByKey = data[d][keys[k]];
+
+      if(boxPlotDataFormatted.get(currentKey).has(currentCualitativeByKey)){
+        let adittion = boxPlotDataFormatted.get(currentKey).get(currentCualitativeByKey);
+        adittion.push(data[d].RDT);
+        boxPlotDataFormatted.set(currentCualitativeByKey, adittion);
+      }
+      else{
+        let dataCualitativeMap = new Map();
+        dataCualitativeMap.set(currentCualitativeByKey, [data[d].RDT]);
+        boxPlotDataFormatted.set(currentKey, dataCualitativeMap);
+
+      }
+    }
+      
+        // if(boxPlotDataFormatted.has(data[d][keys[k]])){
+        //   let adittion = boxPlotDataFormatted.get(data[d][keys[k]]);
+        //   adittion.rdt.push(data[d].RDT);
+        //   boxPlotDataFormatted.set(data[d][keys[k]], adittion);
+        // }
+        // else{
+        //   boxPlotDataFormatted.set(data[d][keys[k]], {managmentPractice: keys[k], rdt: [data[d].RDT]});
+        // }
 
     }
     
-  }
-  // for (var [key, value] of boxPlotDataFormatted) {
-  //   alert(key + " = " + value);
-  //   finalDataArrayFormatted.push({x: key, y: value});
-  // }
-
+  
   console.log(boxPlotDataFormatted);
-  setCualitativeData(boxPlotDataFormatted);
+  // for (var [key, value] of boxPlotDataFormatted) {
+  //    alert(key + " = " + value);
+  //    finalDataArrayFormatted.push({x: key, y: value});
+  // }
+  //finalDataArrayFormatted = Array.from(boxPlotDataFormatted, ([key, value]) => ({ key, value}));
+  //console.log(finalDataArrayFormatted);
+
+  //setCualitativeData(finalDataArrayFormatted);
 
 }
 
