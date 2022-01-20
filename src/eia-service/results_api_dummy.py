@@ -69,7 +69,10 @@ def model_process():
 def search(name):
     search_for=name.upper()
     result = info_farms_for_searching[info_farms_for_searching['FINCA'] == search_for]
-    return result.to_json(orient='records')
+    if(result.empty):
+        return "No se encontró la finca", 400
+    else:
+        return result.to_json(orient='records')
 
 @app.route('/cuantitative_data', methods=['GET'])
 @cross_origin()

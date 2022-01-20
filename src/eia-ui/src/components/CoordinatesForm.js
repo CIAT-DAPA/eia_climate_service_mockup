@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl} from "react-bootstrap";
+import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Alert} from "react-bootstrap";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -9,10 +9,7 @@ import '../styles/coordinatesform.css'
 
 const initialFormValues = {
         farm: null,
-        lotes: [
-            null
-        
-        ],
+        lotes: null,
         predictores: null,
         initialMonth: null,
         finalMonth: null
@@ -42,9 +39,9 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
     
     
     const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
     const [formValues, setFormValues] = useState(initialFormValues);
     const [lotesOptions, setLotesoptions] = useState([]);
+    const [visible, setVisible] = useState(false);
 
     
     const setFormatSelectLotes = () => {
@@ -54,10 +51,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
 
             farmData.map( lote => lotes.push({value: [lote.ID_LOTE, lote.LAT_LOTE, lote.LONG_LOTE], label: lote.NOMBRE_LOTE}))
 
-            
-
         }
-        //console.log(lotes);
         setLotesoptions(lotes);
 
     }
@@ -68,6 +62,11 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
 
             setFormatSelectLotes();
 
+        }
+        else if (farmData === ''){
+            setError("No se encontró la finca. Ingrese una existente");
+            setTimeout(()=>{setError(null)}, 5000);
+            
         }
     
 
@@ -91,16 +90,32 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
 
     const onFormSubmit = (e) =>{
         e.preventDefault();
-        setIsLoading(true);
-        consumeAPI(urlApi, formValues);
+        
+        if(!(formValues.farm)){
+            setError("Ingrese el nombre de una finca y seleccione 'Click para buscar finca'");
+        }
+        else if(!(formValues.lotes)){
+            setError("Seleccione al menos un lote");
+        }
+        else if(!(formValues.predictores)){
+            setError("Seleccione al menos un predictor");
+        }
+        else if(!(formValues.initialMonth)){
+            setError("Seleccione un mes inicial");
+        }
+        else if(!(formValues.finalMonth)){
+            setError("Seleccione un mes final");
+        }
+        else{
+            setIsLoading(true);
+            consumeAPI(urlApi, formValues);
+        }
+        setTimeout(()=>{setError(null)}, 5000);
     }
     
     const handleSearch = (e) => {
 
         searchApi(formValues.farm);
-
- 
-        
         
     }
 
@@ -159,12 +174,12 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                     <Select
                         closeMenuOnSelect={false}
                         name="lotes"
-                        options={farmData ? lotesOptions:null}
+                        options={farmData && farmData != '' ? lotesOptions:null}
                         isMulti
                         className="basic-multi-select"
                         classNamePrefix="select"
                         placeholder="Selecione uno o más lotes"
-                        isDisabled={farmData?false:true}
+                        isDisabled={farmData && farmData != '' ? false:true}
                         onChange={lotesOnChange}
                         />
                 </Form.Group>
@@ -248,6 +263,12 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                     className="d-grid gap-2"
                     
                 >
+                    {
+                        error &&
+                        <Alert key={"currentFormError"} variant={"warning"}>{error}</Alert>
+                        
+                        
+                    }
                     <Button variant="primary" type="submit" size="lg">
                         Enviar
                     </Button>

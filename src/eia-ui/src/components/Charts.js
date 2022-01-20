@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../styles/nvd3.css'
-import NVD3Chart from "react-nvd3";
 import Chart from "react-apexcharts";
-import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl} from "react-bootstrap";
-import { render } from "react-dom";
+import { Row, Col, Form, FloatingLabel} from "react-bootstrap";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -31,7 +29,6 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
         var result = cuantitativeData.filter(obj => {
           return obj.name === e
         })
-        console.log('holaa');
         setCuantitativeDataFilter(result);
         
       }
@@ -42,15 +39,13 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
 
       if(cualitativeData){
         var result = cualitativeData.filter(obj => {
-          return obj.value.managmentPractice === e
+          return obj.key === e
         })
-        console.log(result);
         var finalFormat = [];
-        for(const i in result){
-          finalFormat.push({x: result[i].key, y: result[i].value.rdt});
+        for(const [key, value] of result[0].value){
+          finalFormat.push({x: key, y: value});
 
         }
-        console.log(finalFormat);
         setCualitativeDataFilter(finalFormat);
       }
 

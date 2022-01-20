@@ -9,9 +9,6 @@ import { Row, Col, Container, Spinner, Card, Image } from "react-bootstrap";
 
 const App = () => {
 
-
-  
-
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [returnedData,  setReturnedData] = useState();
@@ -22,22 +19,12 @@ const App = () => {
   
   const [error, setError] = useState(null);
 
-  //const urlApi = "https://jsonplaceholder.typicode.com/comments";
   const urlApi = "http://localhost:105/dummy"
   const urlSearch = "http://localhost:105/farm/"
   const urlCuantitativeData = "http://localhost:105/cuantitative_data"
   const urlCualitativeData = "http://localhost:105/cualitative_data"
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  // const setOnline = (event) => {
-  //   console.log('We are online!');
-  //   isOnline(true);
-  // };
-  // const setOffline = (event) => {
-  //   console.log('We are offline!');
-  //   isOnline(false);
-  // };
 
   // Register the event listeners
   useEffect(() => {
@@ -48,11 +35,10 @@ const App = () => {
         let formValues = JSON.parse(localStorage.getItem('formData'));
         consumeAPI(urlApi, formValues);
       }
-      //console.log('We are online!');
     });
     window.addEventListener('offline', ()=> {
       setIsOnline(false);
-      //console.log('We are offline!');
+ 
     });
     
   }, []);
@@ -98,10 +84,10 @@ const searchApi = (name) => {
 
   fetch(request).then(async (response) => {
       if (response.ok) {
-        //console.log(await response.json());
         setFarmData(await response.json());
        
       } else{
+        setFarmData('');
         setError(await response.text());
         
       }
@@ -116,7 +102,6 @@ const getCuantitativeData = () => {
 
   fetch(request).then(async (response) => {
     if (response.ok) {
-      //console.log(await response.json());
       setDataCuantitativeFormat(await response.json());
      
     } else{
@@ -135,7 +120,6 @@ const getCualitativeData = () => {
 
   fetch(request).then(async (response) => {
     if (response.ok) {
-      //console.log(await response.json());
       setDataCualitativeFormat(await response.json());
      
     } else{
@@ -150,8 +134,7 @@ const getCualitativeData = () => {
 }
 
 const setDataCuantitativeFormat = (data) => {
-  
-  
+
 
   let scatterDataFormatted = 
   [
@@ -171,44 +154,24 @@ const setDataCuantitativeFormat = (data) => {
     for(const k in scatterDataFormatted){
 
         scatterDataFormatted[k].data.push(data[d][scatterDataFormatted[k].name], data[d].RDT);
-        //scatterDataFormatted[k].farm = data[d].NOMBRE_LOTE; 
 
     }
   }
-  console.log(scatterDataFormatted);
+
   setCuantitativeData(scatterDataFormatted);
 
 }
 
 const setDataCualitativeFormat = (data) => {
-  console.log(data);
   
-
-  // let boxPlotDataFormatted = 
-  // [
-  //   {name: 'TIPO_SIEMBRA', data:[]}, 
-  //   {name: 'SEM_TRATADAS', data:[]}, 
-  //   {name: 'TIPO_CULTIVO', data:[]},
-  //   {name: 'COLOR_ENDOSPERMO', data:[]}, 
-  //   {name: 'MATERIAL_GENETICO', data:[]}, 
-  //   {name: 'CULT_ANT', data:[]},
-  //   {name: 'DRENAJE', data:[]},
-  //   {name: 'METODO_COSECHA', data:[]},
-  //   {name: 'PROD_COSECHADO', data:[]},
-  //   {name: 'NOMBRE_LOTE', data:[]},
-  //   {name: 'name_gen_sow', data:[]},
-  //   {name: 'ALMACENAMIENTO_FINCA', data:[]}
-  // ]
-
   const keys = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
     'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
     'TIPO_SIEMBRA', 'name_gen_sow'];
+
   //Initializes keys in order to simplify the loop
   let boxPlotDataFormatted = new Map([[keys[0], new Map()], [keys[1], new Map()],[keys[2], new Map()], [keys[3], new Map()],
     [keys[4], new Map()], [keys[5], new Map()], [keys[6], new Map()], [keys[7], new Map()], [keys[8], new Map()], [keys[9], new Map()],
     [keys[10], new Map()]]);
-  console.log(boxPlotDataFormatted)
-  let finalDataArrayFormatted = [];
 
   for(const d in data){
 
@@ -228,29 +191,17 @@ const setDataCualitativeFormat = (data) => {
         boxPlotDataFormatted.set(currentKey, dataCualitativeMap);
 
       }
-    }
-      
-        // if(boxPlotDataFormatted.has(data[d][keys[k]])){
-        //   let adittion = boxPlotDataFormatted.get(data[d][keys[k]]);
-        //   adittion.rdt.push(data[d].RDT);
-        //   boxPlotDataFormatted.set(data[d][keys[k]], adittion);
-        // }
-        // else{
-        //   boxPlotDataFormatted.set(data[d][keys[k]], {managmentPractice: keys[k], rdt: [data[d].RDT]});
-        // }
 
     }
-    
-  
-  console.log(boxPlotDataFormatted);
-  // for (var [key, value] of boxPlotDataFormatted) {
-  //    alert(key + " = " + value);
-  //    finalDataArrayFormatted.push({x: key, y: value});
-  // }
-  //finalDataArrayFormatted = Array.from(boxPlotDataFormatted, ([key, value]) => ({ key, value}));
-  //console.log(finalDataArrayFormatted);
 
-  //setCualitativeData(finalDataArrayFormatted);
+  }
+
+  let finalDataArrayFormatted = [];
+  for (var [key, value] of boxPlotDataFormatted) {
+     finalDataArrayFormatted.push({x: key, y: value});
+  }
+  finalDataArrayFormatted = Array.from(boxPlotDataFormatted, ([key, value]) => ({ key, value}));
+  setCualitativeData(finalDataArrayFormatted);
 
 }
 
