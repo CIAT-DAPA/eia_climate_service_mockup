@@ -223,7 +223,7 @@ const setDataCualitativeFormat = (data) => {
         boxPlotDataFormatted.set(currentCualitativeByKey, adittion);
       }
       else{
-        let dataCualitativeMap = new Map();
+        let dataCualitativeMap = boxPlotDataFormatted.get(currentKey);
         dataCualitativeMap.set(currentCualitativeByKey, [data[d].RDT]);
         boxPlotDataFormatted.set(currentKey, dataCualitativeMap);
 
