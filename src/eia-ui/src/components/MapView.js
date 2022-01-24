@@ -1,6 +1,6 @@
 import "../styles/mapview.css";
 import React, { useEffect, useState} from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, LayersControl} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 
@@ -73,33 +73,39 @@ const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
           zoom={6}
         >
           
-          {/* { Posición actual y poner marcador con click
-            !selectedPosition && <InitialLocationMarker/>
-          }
 
-        <InitialLocationMarker/>
-        <SelectedMarker/>  */}
+          <LayersControl>
+            {
+              lotesSelected && lotesSelected.map(lote => 
 
-          {
-            lotesSelected && lotesSelected.map(lote => 
+              <Marker position={{lat: lote.value[1], lng: lote.value[2]}} icon={icon}>
+                <Popup>
+                  <center>Lote: {lote.label}</center> <br />
+                  Coordenadas: <br />
+                  <b>Latitud</b>: {lote.value[1]}<br />
+                  <b>Longitud</b>: {lote.value[2]}<br />
+                </Popup>
+              </Marker>
+                
+              )
+            }
+            <LayersControl.BaseLayer checked name="OpenStreetMap">
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+            </LayersControl.BaseLayer>
 
-            <Marker position={{lat: lote.value[1], lng: lote.value[2]}} icon={icon}>
-              <Popup>
-                <center>Lote: {lote.label}</center> <br />
-                Coordenadas: <br />
-                <b>Latitud</b>: {lote.value[1]}<br />
-                <b>Longitud</b>: {lote.value[2]}<br />
-              </Popup>
-            </Marker>
-              
-            )
-          }
-          <TileLayer
-            
-            url='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-            maxZoom= {20}
-            subdomains={['mt1','mt2','mt3']}
-          />
+            <LayersControl.BaseLayer name= "Satellite View">
+              <TileLayer
+                
+                url='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+                maxZoom= {20}
+                subdomains={['mt1','mt2','mt3']}
+              />
+            </LayersControl.BaseLayer>
+
+          </LayersControl>
           
           
         </MapContainer>
