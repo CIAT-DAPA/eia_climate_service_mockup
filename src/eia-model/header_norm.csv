@@ -1,0 +1,81 @@
+,Names
+0,Sowing_Seeds_Number
+1,Seeds_Per_Site
+2,Plant_Density_20_days
+3,Chemical_Treat_Disease
+4,Chemical_Treat_Weeds
+5,Chemical_Treat_Pests
+6,Total_N
+7,Total_P
+8,Total_K
+9,Number_Chemical_Ferti
+10,pH
+11,Efective_Depth
+12,TM_Avg_VEG
+13,TA_Avg_VEG
+14,DR_Avg_VEG
+15,SR_Accu_VEG
+16,P_10_Freq_VEG
+17,TA_Avg_CF
+18,SR_Accu_CF
+19,P_Accu_CF
+20,RH_Avg_CF
+21,SR_Accu_MAT
+22,P_10_Freq_MAT
+23,RH_Avg_MAT
+24,Sowing_Method_Manual
+25,Sowing_Method_Mecanizado
+26,Seeds_Treatment_NO
+27,Seeds_Treatment_SI
+28,Cultivar_ADV 9293 (Syngenta)
+29,Cultivar_ADV 9339 (Syngenta)
+30,Cultivar_Cerato (Syngenta)
+31,Cultivar_DK 1040
+32,Cultivar_DK 1596
+33,Cultivar_DK 234
+34,Cultivar_DK 234 YGRR
+35,Cultivar_DK7088
+36,Cultivar_FNC 114
+37,Cultivar_FNC 3056
+38,Cultivar_ICA V 156
+39,Cultivar_ICA V 305
+40,Cultivar_Impacto (Syngenta)
+41,Cultivar_NK254 (Syngenta)
+42,Cultivar_Otro
+43,Cultivar_P3966 (Pioneer)
+44,Cultivar_P4082 (Pioneer)
+45,Cultivar_PAC 105
+46,Cultivar_PIONEER 30F32
+47,Cultivar_PIONEER 30F32HW
+48,Cultivar_PIONEER 30F35
+49,Cultivar_PIONEER 30F35 H
+50,Cultivar_PIONEER 30F35 HRR
+51,Cultivar_Sinko (Syngenta)
+52,Cultivar_Status (Syngenta)
+53,Former_Crop_Algodon
+54,Former_Crop_Frijol
+55,Former_Crop_Maiz
+56,Former_Crop_Pastos
+57,Field_Drainage_NO
+58,Field_Drainage_SI
+59,Harvest_Method_Manual
+60,Harvest_Method_Mecanizada
+61,Cultivar_Type_Hibrido
+62,Cultivar_Type_OGM
+63,Soil_Structure_ATERRONADA
+64,Soil_Structure_GRANULAR
+65,Soil_Structure_MASIVA
+66,Runoff_LENTO
+67,Runoff_NINGUNO
+68,Soil_Texture_A
+69,Soil_Texture_AF
+70,Soil_Texture_Ar
+71,Soil_Texture_ArA
+72,Soil_Texture_ArL
+73,Soil_Texture_F
+74,Soil_Texture_FA
+75,Soil_Texture_FAr
+76,Soil_Texture_FrL
+77,Soil_Texture_L
+78,Organic_Matter_Content_BAJA
+79,Organic_Matter_Content_MEDIA
