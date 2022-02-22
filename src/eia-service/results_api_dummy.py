@@ -4,6 +4,7 @@ from numpy import array, double
 import pandas as pd
 import random
 
+from model.Optimzation_workflow import Model
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -83,6 +84,10 @@ def cuantitative_data():
 @cross_origin()
 def cualitative_data():
     return yield_and_cualitative.to_json(orient='records')
+
+model_script = Model()
+print('Datos:')
+print(model_script.solution[1])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)
