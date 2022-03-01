@@ -121,9 +121,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.venv37
-eia-venv
+eia-env/
 
+#data
+data/
 # Spyder project settings
 .spyderproject
 .spyproject

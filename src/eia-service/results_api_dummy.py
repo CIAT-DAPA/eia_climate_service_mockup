@@ -15,14 +15,14 @@ info_farms_for_searching = pd.read_csv('.//data//datos_cordoba_extraccion_2017.c
     dtype={"ID_LOTE": int, "NOMBRE_LOTE": str, "ID_FINCA": int, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
     usecols={"ID_LOTE", "NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
 
-yield_and_cuantitative = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv', 
+yield_and_cuantitative = pd.read_csv('.//data//datasetcordoba.csv', 
     dtype={"RDT": float, "NUM_SEMILLAS": float, "DIST_SURCOS": float, "DIST_PLANTAS": float, "SEM_POR_SITIO": float,
         "OBJ_RDT":float, "POBLACION_20DIAS":float, "production_har": float, "humidity_percentage_har": float, "area_fie":float,
         "NOMBRE_LOTE":str}, 
     usecols={"production_har", "NUM_SEMILLAS", "DIST_SURCOS", "DIST_PLANTAS", "SEM_POR_SITIO",
         "OBJ_RDT", "POBLACION_20DIAS", "RDT", "humidity_percentage_har", "area_fie", "NOMBRE_LOTE"})
 
-yield_and_cualitative = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv', 
+yield_and_cualitative = pd.read_csv('.//data//datasetcordoba.csv', 
     dtype={"RDT": float, "TIPO_SIEMBRA": str, "SEM_TRATADAS": str, "TIPO_CULTIVO": str, "COLOR_ENDOSPERMO": str,
         "MATERIAL_GENETICO":str, "CULT_ANT":str, "DRENAJE": str, "METODO_COSECHA": str, "PROD_COSECHADO":str,
         "NOMBRE_LOTE":str, "name_gen_sow":str, "ALMACENAMIENTO_FINCA":str}, 
@@ -87,7 +87,7 @@ def cualitative_data():
 
 model_script = Model()
 print('Datos:')
-print(model_script.solution[1])
+print(model_script.sol_gen.head())
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)

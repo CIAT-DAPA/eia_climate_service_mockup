@@ -35,7 +35,7 @@ class Model:
 
     # Read dataset
 
-    dataset = pd.read_csv(".//data//datasetcordoba.csv",index_col=0)
+    dataset = pd.read_csv(".//data//datos_cordoba_beta.csv",index_col=0)
     #print(dataset)
 
     del dataset["year_sems"]
@@ -111,6 +111,11 @@ class Model:
     namesds=managment_vars,fixedVars=other_variables,model_train=rf,ranges=ds_ranges,scales=scales_managment_vars,
     transf_fun=ct)
 
+    sol_gen = solution[1]
+    sol_gen.index = gen.index
+    sol_gen
+    #pd.set_option('display.max_columns', None)
+
 
     # In[12]:
 
@@ -123,3 +128,5 @@ class Model:
 
     #print(solution[2])
 
+
+# %%
