@@ -49,7 +49,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
         
         if (farmData){
 
-            farmData.map( lote => lotes.push({value: [lote.ID_LOTE, lote.LAT_LOTE, lote.LONG_LOTE], label: lote.NOMBRE_LOTE}))
+            farmData.map( lote => lotes.push({value: [lote.ID_CULTIVO, lote.LAT_LOTE, lote.LONG_LOTE], label: lote.NOMBRE_LOTE}))
 
         }
         setLotesoptions(lotes);

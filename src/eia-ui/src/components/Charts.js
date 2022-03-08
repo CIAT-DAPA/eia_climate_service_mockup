@@ -9,14 +9,14 @@ const styles = {
   
 };
 
-const variablesCuantitatives = ["DIST_PLANTAS", "DIST_SURCOS", "NUM_SEMILLAS", "OBJ_RDT",
-  "POBLACION_20DIAS", "production_har", "SEM_POR_SITIO", "area_fie", "humidity_percentage_har"
-
+const variablesCuantitatives = ["Sowing_Seeds_Number", "Seeds_Per_Site", "Plant_Density_20_days", "Chemical_Treat_Disease",
+"Chemical_Treat_Weeds", "Chemical_Treat_Pests", "Total_N", "Total_P", "Total_K", "Number_Chemical_Ferti", "pH",
+"Efective_Depth", "TM_Avg_VEG", "TA_Avg_VEG", "DR_Avg_VEG", "SR_Accu_VEG", "P_10_Freq_VEG", "TA_Avg_CF", "SR_Accu_CF",
+"RH_Avg_CF", "SR_Accu_MAT", "P_10_Freq_MAT", "RH_Avg_MAT"
 ]
 
-const variablesCualitatives = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
-    'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
-    'TIPO_SIEMBRA', 'name_gen_sow'];
+const variablesCualitatives = ["Sowing_Method", "Seeds_Treatment", "Cultivar", "Former_Crop",
+"Field_Drainage", "Harvest_Method", "Cultivar_Type", "Soil_Structure", "Runoff", "Soil_Texture", "Organic_Matter_Content", "year_sems"];
 
 const Charts = ({cuantitativeData, cualitativeData}) => {
 

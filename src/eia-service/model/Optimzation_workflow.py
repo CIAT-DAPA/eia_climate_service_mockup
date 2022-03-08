@@ -33,100 +33,108 @@ from model.Optimization_funs import *
 # In[2]:
 class Model:
 
-    # Read dataset
-
-    dataset = pd.read_csv(".//data//datos_cordoba_beta.csv",index_col=0)
-    #print(dataset)
-
-    del dataset["year_sems"]
-
-    #dataset.columns
-
-    X = dataset.copy()
-
-    del X["Yield"]
-
-    Y = dataset["Yield"]
+    def run_model(self, crop_id):
 
 
-    # In[4]:
+        # Read dataset
+
+        dataset = pd.read_csv(".//data//Cordoba-id-recover.csv",index_col=0)
+        #print(dataset)
+
+        del dataset["year_sems"]
+
+        #dataset.columns
+
+        X = dataset.copy()
+
+        del X["Yield"]
+
+        Y = dataset["Yield"]
 
 
-    # Extract ranges
-
-    clasVars = pd.read_csv(".//data//header_dataset.csv")
+        # In[4]:
 
 
-    # In[5]:
+        # Extract ranges
+
+        clasVars = pd.read_csv(".//data//header_dataset.csv")
 
 
-    # Subset of variables
-    #print(clasVars)
-    managment_vars = clasVars[clasVars.Type=="M"]["Variable"].reset_index()["Variable"]
-    scales_managment_vars = clasVars[clasVars.Type=="M"]["Scale"].reset_index()["Scale"]
-
-    other_variables = clasVars[clasVars.Type!="M" ]
-    other_variables = other_variables[other_variables.Type != "O"]["Variable"].reset_index()["Variable"]
+        # In[5]:
 
 
-    # In[6]:
+        # Subset of variables
+        #print(clasVars)
+        managment_vars = clasVars[clasVars.Type=="M"]["Variable"].reset_index()["Variable"]
+        scales_managment_vars = clasVars[clasVars.Type=="M"]["Scale"].reset_index()["Scale"]
+
+        other_variables = clasVars[clasVars.Type!="M" ]
+        other_variables = other_variables[other_variables.Type != "O"]["Variable"].reset_index()["Variable"]
 
 
-    # Split dataset
-
-    mat_M = dataset[managment_vars]
-    mat_O = dataset[other_variables]
+        # In[6]:
 
 
-    # In[8]:
+        # Split dataset
+
+        mat_M = dataset[managment_vars]
+        mat_O = dataset[other_variables]
 
 
-    # Validation
-
-    ds_ranges = AllRangGen(mat_M,scales_managment_vars,managment_vars)
+        # In[8]:
 
 
-    # In[9]:
+        # Validation
+
+        ds_ranges = AllRangGen(mat_M,scales_managment_vars,managment_vars)
 
 
-    # Persistence
-
-    ct = load('.//data//pipe_line.joblib')
-
-    rf = load('.//data//rf_cordoba.joblib') 
+        # In[9]:
 
 
-    # In[10]:
+        # Persistence
+
+        ct = load('.//data//pipe_line.joblib')
+
+        rf = load('.//data//rf_cordoba.joblib') 
 
 
-    gen = dataset.iloc[[15]]
-
-    #gen
+        # In[10]:
 
 
-    # In[11]:
+        crop_id = crop_id
+        row_by_id = dataset.iloc[:, 0] = crop_id
+        #df_male = df.loc[is_male]
+        gen = dataset.loc[[row_by_id]]
+
+        #gen
 
 
-    solution = bestGlobHS(fv=gen[other_variables],hms=5,hmcr=0.85,par=0.3,maxNumInp=100,fitnessfun=fitnessfun,
-    namesds=managment_vars,fixedVars=other_variables,model_train=rf,ranges=ds_ranges,scales=scales_managment_vars,
-    transf_fun=ct)
-
-    sol_gen = solution[1]
-    sol_gen.index = gen.index
-    sol_gen
-    #pd.set_option('display.max_columns', None)
+        # In[11]:
 
 
-    # In[12]:
+        solution = bestGlobHS(fv=gen[other_variables],hms=5,hmcr=0.85,par=0.3,maxNumInp=100,fitnessfun=fitnessfun,
+        namesds=managment_vars,fixedVars=other_variables,model_train=rf,ranges=ds_ranges,scales=scales_managment_vars,
+        transf_fun=ct)
 
-    #print(type(solution))
-    #print(solution[1])
+        sol_gen = solution[1]
+        sol_gen.index = gen.index
+        
+        
+        return sol_gen
+        #pd.set_option('display.max_columns', None)
 
 
-    # In[13]:
+        # In[12]:
+
+        #print(type(solution))
+        #print(solution[1])
 
 
-    #print(solution[2])
+        # In[13]:
 
 
-# %%
+        #print(solution[2])
+
+
+    # %%

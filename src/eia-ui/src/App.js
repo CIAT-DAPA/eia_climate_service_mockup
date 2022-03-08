@@ -138,15 +138,30 @@ const setDataCuantitativeFormat = (data) => {
 
   let scatterDataFormatted = 
   [
-    {name: 'DIST_PLANTAS', data:[], farm: ''}, 
-    {name: 'DIST_SURCOS', data:[], farm: ''}, 
-    {name: 'NUM_SEMILLAS', data:[], farm: ''},
-    {name: 'OBJ_RDT', data:[], farm: ''}, 
-    {name: 'POBLACION_20DIAS', data:[], farm: ''}, 
-    {name: 'production_har', data:[], farm: ''},
-    {name: 'SEM_POR_SITIO', data:[], farm: ''},
-    {name: 'area_fie', data:[], farm: ''},
-    {name: 'humidity_percentage_har', data:[], farm: ''}
+    {name: 'Sowing_Seeds_Number', data:[], farm: ''}, 
+    {name: 'Seeds_Per_Site', data:[], farm: ''}, 
+    {name: 'Plant_Density_20_days', data:[], farm: ''},
+    {name: 'Chemical_Treat_Disease', data:[], farm: ''}, 
+    {name: 'Chemical_Treat_Weeds', data:[], farm: ''}, 
+    {name: 'Chemical_Treat_Pests', data:[], farm: ''},
+    {name: 'Total_N', data:[], farm: ''},
+    {name: 'Total_P', data:[], farm: ''},
+    {name: 'Total_K', data:[], farm: ''},
+    {name: 'Number_Chemical_Ferti', data:[], farm: ''},
+    {name: 'pH', data:[], farm: ''},
+    {name: 'Efective_Depth', data:[], farm: ''},
+    {name: 'TM_Avg_VEG', data:[], farm: ''},
+    {name: 'TA_Avg_VEG', data:[], farm: ''},
+    {name: 'DR_Avg_VEG', data:[], farm: ''},
+    {name: 'SR_Accu_VEG', data:[], farm: ''},
+    {name: 'P_10_Freq_VEG', data:[], farm: ''},
+    {name: 'TA_Avg_CF', data:[], farm: ''},
+    {name: 'SR_Accu_CF', data:[], farm: ''},
+    {name: 'RH_Avg_CF', data:[], farm: ''},
+    {name: 'SR_Accu_MAT', data:[], farm: ''},
+    {name: 'P_10_Freq_MAT', data:[], farm: ''},
+    {name: 'RH_Avg_MAT', data:[], farm: ''}
+
   ]
   
   for(const d in data) {
@@ -163,15 +178,14 @@ const setDataCuantitativeFormat = (data) => {
 }
 
 const setDataCualitativeFormat = (data) => {
-  
-  const keys = ['ALMACENAMIENTO_FINCA', 'COLOR_ENDOSPERMO', 'CULT_ANT', 'DRENAJE', 'MATERIAL_GENETICO', 
-    'METODO_COSECHA', 'PROD_COSECHADO', 'SEM_TRATADAS', 'TIPO_CULTIVO',
-    'TIPO_SIEMBRA', 'name_gen_sow'];
+  console.log(data);
+  const keys = ["Sowing_Method", "Seeds_Treatment", "Cultivar", "Former_Crop",
+  "Field_Drainage", "Harvest_Method", "Cultivar_Type", "Soil_Structure", "Runoff", "Soil_Texture", "Organic_Matter_Content", "year_sems"];
 
   //Initializes keys in order to simplify the loop
   let boxPlotDataFormatted = new Map([[keys[0], new Map()], [keys[1], new Map()],[keys[2], new Map()], [keys[3], new Map()],
     [keys[4], new Map()], [keys[5], new Map()], [keys[6], new Map()], [keys[7], new Map()], [keys[8], new Map()], [keys[9], new Map()],
-    [keys[10], new Map()]]);
+    [keys[10], new Map()], [keys[11], new Map()]]);
 
   for(const d in data){
 
@@ -182,12 +196,12 @@ const setDataCualitativeFormat = (data) => {
 
       if(boxPlotDataFormatted.get(currentKey).has(currentCualitativeByKey)){
         let adittion = boxPlotDataFormatted.get(currentKey).get(currentCualitativeByKey);
-        adittion.push(data[d].RDT);
+        adittion.push(data[d].Yield);
         boxPlotDataFormatted.set(currentCualitativeByKey, adittion);
       }
       else{
         let dataCualitativeMap = boxPlotDataFormatted.get(currentKey);
-        dataCualitativeMap.set(currentCualitativeByKey, [data[d].RDT]);
+        dataCualitativeMap.set(currentCualitativeByKey, [data[d].Yield]);
         boxPlotDataFormatted.set(currentKey, dataCualitativeMap);
 
       }

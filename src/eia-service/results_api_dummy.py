@@ -12,25 +12,30 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 #api = Api(app)
 
 info_farms_for_searching = pd.read_csv('.//data//datos_cordoba_extraccion_2017.csv', 
-    dtype={"ID_LOTE": int, "NOMBRE_LOTE": str, "ID_FINCA": int, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
-    usecols={"ID_LOTE", "NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
+    dtype={"ID_CULTIVO": int, "NOMBRE_LOTE": str, "ID_FINCA": int, "FINCA": str, "LAT_LOTE": float, "LONG_LOTE":float}, 
+    usecols={"ID_CULTIVO", "NOMBRE_LOTE", "FINCA", "LAT_LOTE", "LONG_LOTE"})
 
-yield_and_cuantitative = pd.read_csv('.//data//datasetcordoba.csv', 
-    dtype={"RDT": float, "NUM_SEMILLAS": float, "DIST_SURCOS": float, "DIST_PLANTAS": float, "SEM_POR_SITIO": float,
-        "OBJ_RDT":float, "POBLACION_20DIAS":float, "production_har": float, "humidity_percentage_har": float, "area_fie":float,
-        "NOMBRE_LOTE":str}, 
-    usecols={"production_har", "NUM_SEMILLAS", "DIST_SURCOS", "DIST_PLANTAS", "SEM_POR_SITIO",
-        "OBJ_RDT", "POBLACION_20DIAS", "RDT", "humidity_percentage_har", "area_fie", "NOMBRE_LOTE"})
+yield_and_cuantitative = pd.read_csv('.//data//Cordoba-id-recover.csv', 
+    dtype={"Yield": float, "Sowing_Seeds_Number": float, "Seeds_Per_Site": float, "Plant_Density_20_days": float, "Chemical_Treat_Disease": float,
+        "Chemical_Treat_Weeds":float, "Chemical_Treat_Pests":float, "Total_N": float, "Total_P": float, "Total_K":float,
+        "Number_Chemical_Ferti":float, "pH":float, "Efective_Depth":float, "TM_Avg_VEG":float, "TA_Avg_VEG":float, "DR_Avg_VEG":float,
+        "SR_Accu_VEG":float, "P_10_Freq_VEG":float, "TA_Avg_CF":float, "SR_Accu_CF":float, "P_Accu_CF":float, "RH_Avg_CF":float,
+        "SR_Accu_MAT":float, "P_10_Freq_MAT":float, "RH_Avg_MAT":float},
 
-yield_and_cualitative = pd.read_csv('.//data//datasetcordoba.csv', 
-    dtype={"RDT": float, "TIPO_SIEMBRA": str, "SEM_TRATADAS": str, "TIPO_CULTIVO": str, "COLOR_ENDOSPERMO": str,
-        "MATERIAL_GENETICO":str, "CULT_ANT":str, "DRENAJE": str, "METODO_COSECHA": str, "PROD_COSECHADO":str,
-        "NOMBRE_LOTE":str, "name_gen_sow":str, "ALMACENAMIENTO_FINCA":str}, 
-    usecols={"RDT", "TIPO_SIEMBRA", "SEM_TRATADAS", "TIPO_CULTIVO", "COLOR_ENDOSPERMO",
-        "MATERIAL_GENETICO", "CULT_ANT", "DRENAJE", "METODO_COSECHA", "PROD_COSECHADO", "NOMBRE_LOTE", "name_gen_sow", "ALMACENAMIENTO_FINCA"})
+    usecols={"Yield", "Sowing_Seeds_Number", "Seeds_Per_Site", "Plant_Density_20_days", "Chemical_Treat_Disease",
+        "Chemical_Treat_Weeds", "Chemical_Treat_Pests", "Total_N", "Total_P", "Total_K", "Number_Chemical_Ferti", "pH",
+        "Efective_Depth", "TM_Avg_VEG", "TA_Avg_VEG", "DR_Avg_VEG", "SR_Accu_VEG", "P_10_Freq_VEG", "TA_Avg_CF", "SR_Accu_CF",
+        "RH_Avg_CF", "SR_Accu_MAT", "P_10_Freq_MAT", "RH_Avg_MAT"})
 
-yield_and_cuantitative = yield_and_cuantitative.dropna()
-yield_and_cualitative = yield_and_cualitative.dropna()
+yield_and_cualitative = pd.read_csv('.//data//Cordoba-id-recover.csv', 
+    dtype={"Yield": float, "Sowing_Method": str, "Seeds_Treatment": str, "Cultivar": str, "Former_Crop": str,
+        "Field_Drainage":str, "Harvest_Method":str, "Cultivar_Type": str, "Soil_Structure": str, "Runoff":str,
+        "Soil_Texture":str, "Organic_Matter_Content":str, "year_sems":str}, 
+    usecols={"Yield", "Sowing_Method", "Seeds_Treatment", "Cultivar", "Former_Crop",
+        "Field_Drainage", "Harvest_Method", "Cultivar_Type", "Soil_Structure", "Runoff", "Soil_Texture", "Organic_Matter_Content", "year_sems"})
+
+#yield_and_cuantitative = yield_and_cuantitative.dropna()
+#yield_and_cualitative = yield_and_cualitative.dropna()
 
 
 info_farms_for_searching['FINCA'] = info_farms_for_searching['FINCA'].str.upper()
@@ -59,10 +64,18 @@ def result_data(predictors, lote):
 @cross_origin()
 def model_process():
     body = request.json
-    results_by_lotes = []
+    print(body["lotes"])
+    results_by_lotes = {}
+    model_script = Model()
+    
+    #print(model_script.sol_gen.head())
     for r in range(int(len(body["lotes"]))):
-         results_by_lotes.append(result_data(body["predictores"], body["lotes"][r]['label']))
+        crop_id = body['lotes'][r]['value'][0]
+        print("IDs: ", crop_id)
+        #print(model_script.sol_gen)
+        results_by_lotes[str(crop_id)] = model_script.run_model(crop_id).to_json()
 
+    print(results_by_lotes)
     return jsonify(results_by_lotes)
 
 @app.route('/farm/<name>', methods=['GET'])
@@ -85,9 +98,6 @@ def cuantitative_data():
 def cualitative_data():
     return yield_and_cualitative.to_json(orient='records')
 
-model_script = Model()
-print('Datos:')
-print(model_script.sol_gen.head())
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)
