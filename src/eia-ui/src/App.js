@@ -168,7 +168,7 @@ const setDataCuantitativeFormat = (data) => {
     
     for(const k in scatterDataFormatted){
 
-        scatterDataFormatted[k].data.push(data[d][scatterDataFormatted[k].name], data[d].RDT);
+        scatterDataFormatted[k].data.push(data[d]["Yield"], data[d][scatterDataFormatted[k].name]);
 
     }
   }

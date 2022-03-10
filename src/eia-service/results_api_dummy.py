@@ -65,7 +65,7 @@ def result_data(predictors, lote):
 def model_process():
     body = request.json
     print(body["lotes"])
-    results_by_lotes = {}
+    results_by_lotes = []
     model_script = Model()
     
     #print(model_script.sol_gen.head())
@@ -73,7 +73,7 @@ def model_process():
         crop_id = body['lotes'][r]['value'][0]
         print("IDs: ", crop_id)
         #print(model_script.sol_gen)
-        results_by_lotes[str(crop_id)] = model_script.run_model(crop_id).to_json()
+        results_by_lotes.append(model_script.run_model(crop_id))
 
     print(results_by_lotes)
     return jsonify(results_by_lotes)

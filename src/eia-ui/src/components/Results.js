@@ -5,7 +5,7 @@ const Results = (returnedData) => {
     
     let returnedDataFixed = returnedData.returnedData;
     
-    //console.log(returnedDataFixed);
+    console.log(returnedData);
 
     useEffect(() => {
         returnedDataFixed = returnedData.returnedData;
@@ -25,13 +25,14 @@ const Results = (returnedData) => {
 
                 
                     {   //Se recorre el objeto (que eran un json antes de estar en este componente) y se ponen los datos en la tabla
+                        
                         returnedDataFixed.map((predictorsByLote, i)=>(
                             <div>
                                 
 
                             <Table striped bordered hover size="sm">
                                     <thead>
-                                        <th>{predictorsByLote['lote']}</th>
+                                        <th>{returnedData.lotes[i].label}</th>
                                     </thead>
                                     <thead>
                                         <tr>
@@ -45,17 +46,22 @@ const Results = (returnedData) => {
                                             // predictorsByLote.predictors - todos los predictores
                                             // currentPredictor - la llave del primero predictor. Es una posicion en el arreglo
                                             // Object.keys(predictorsByLote.predictors[currentPredictor]) - el nombre del predictor
-                                            Object.keys(predictorsByLote.predictors).map((currentPredictor, i)=>(
+                                            Object.keys(predictorsByLote.optimo[0]).map((currentPredictor, i)=>(
                                                 <tbody>
             
-                                                
-                                                
-                                                <tr> 
-                                                    <td>{Object.keys(predictorsByLote.predictors[currentPredictor])}</td>
-                                                    <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].current}</td>
-                                                    <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].optimal}</td>
+                                                {
+                                                    (currentPredictor !== 'Performance') &&
+                                                    <tr>
+                                            
+                                                        <td>{currentPredictor}</td>
+                                                        <td>{predictorsByLote.actual[0][currentPredictor]}</td>
+                                                        <td>{predictorsByLote.optimo[0][currentPredictor]}</td>
+                                                        {/* <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].current}</td>
+                                                        <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].optimal}</td> */}
 
-                                                </tr>
+                                                    </tr>
+
+                                                }
                                                 </tbody>
             
                                                 )
@@ -71,8 +77,8 @@ const Results = (returnedData) => {
                                         <tr>
                             
                                         <th>Rendimiento t/ha</th>
-                                        <th>{predictorsByLote['yield'].current}</th>
-                                        <th>{predictorsByLote['yield'].optimal}</th>
+                                        <th>{predictorsByLote.actual[0]["Yield"]}</th>
+                                        <th>{predictorsByLote.optimo[0]["Performance"]}</th>
                                         </tr>
                                     </thead>
                             </Table>

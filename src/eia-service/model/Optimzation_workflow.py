@@ -120,8 +120,12 @@ class Model:
         sol_gen = solution[1]
         sol_gen.index = gen.index
         
+        actual = gen.drop(columns=['DR_Avg_VEG', 'Efective_Depth', 'Field_Drainage', 'Former_Crop', 
+        'Organic_Matter_Content', 'P_10_Freq_MAT', 'P_10_Freq_VEG', 'P_Accu_CF', 'RH_Avg_CF', 
+        'RH_Avg_MAT', 'Runoff', 'SR_Accu_CF', 'SR_Accu_MAT', 'SR_Accu_VEG', 'Soil_Structure',
+        'Soil_Texture', 'TA_Avg_CF', 'TA_Avg_VEG', 'TM_Avg_VEG', 'pH'])
         
-        return sol_gen
+        return {"actual": actual.to_dict('records'), "optimo":sol_gen.to_dict('records')}
         #pd.set_option('display.max_columns', None)
 
 
