@@ -5,7 +5,6 @@ const Results = (returnedData) => {
     
     let returnedDataFixed = returnedData.returnedData;
     
-    console.log(returnedData);
 
     useEffect(() => {
         returnedDataFixed = returnedData.returnedData;

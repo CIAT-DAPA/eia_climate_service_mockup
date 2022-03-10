@@ -168,7 +168,7 @@ const setDataCuantitativeFormat = (data) => {
     
     for(const k in scatterDataFormatted){
 
-        scatterDataFormatted[k].data.push(data[d]["Yield"], data[d][scatterDataFormatted[k].name]);
+        scatterDataFormatted[k].data.push([data[d][scatterDataFormatted[k].name], data[d]["Yield"]]);
 
     }
   }
@@ -178,7 +178,7 @@ const setDataCuantitativeFormat = (data) => {
 }
 
 const setDataCualitativeFormat = (data) => {
-  console.log(data);
+ 
   const keys = ["Sowing_Method", "Seeds_Treatment", "Cultivar", "Former_Crop",
   "Field_Drainage", "Harvest_Method", "Cultivar_Type", "Soil_Structure", "Runoff", "Soil_Texture", "Organic_Matter_Content", "year_sems"];
 
@@ -196,12 +196,12 @@ const setDataCualitativeFormat = (data) => {
 
       if(boxPlotDataFormatted.get(currentKey).has(currentCualitativeByKey)){
         let adittion = boxPlotDataFormatted.get(currentKey).get(currentCualitativeByKey);
-        adittion.push(data[d].Yield);
+        adittion.push(data[d]["Yield"]);
         boxPlotDataFormatted.set(currentCualitativeByKey, adittion);
       }
       else{
         let dataCualitativeMap = boxPlotDataFormatted.get(currentKey);
-        dataCualitativeMap.set(currentCualitativeByKey, [data[d].Yield]);
+        dataCualitativeMap.set(currentCualitativeByKey, [data[d]["Yield"]]);
         boxPlotDataFormatted.set(currentKey, dataCualitativeMap);
 
       }
