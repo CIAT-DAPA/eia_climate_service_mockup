@@ -43,7 +43,8 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
         })
         var finalFormat = [];
         for(const [key, value] of result[0].value){
-          finalFormat.push({x: key, y: value});
+          //finalFormat.push({x: key, y: value});
+          finalFormat.push({x: key, y: value.sort(function(a, b) {return a - b;})});
 
         }
         setCualitativeDataFilter(finalFormat);
