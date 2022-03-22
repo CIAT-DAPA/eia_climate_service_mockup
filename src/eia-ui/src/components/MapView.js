@@ -1,6 +1,7 @@
 import "../styles/mapview.css";
 import React, { useEffect, useState} from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, LayersControl} from "react-leaflet";
+import {Container} from "react-bootstrap";
 import "leaflet/dist/leaflet.css";
 
 
@@ -66,11 +67,13 @@ const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
   return (
 
     
+    <Container  fluid>
 
         <MapContainer
           //center={selectedPosition ? selectedPosition : initialPosition}
           center={{lat: defaultPosition[0], lng: defaultPosition[1]}}
-          zoom={6}
+          zoom={5}
+          scrollWheelZoom={false}
         >
           
 
@@ -109,6 +112,7 @@ const MapView = ({selectedPosition, lotesSelected, setSelectedPosition}) => {
           
           
         </MapContainer>
+    </Container>
 
 
 

@@ -4,8 +4,9 @@ import MapView from './components/MapView';
 import CoordinatesForm from "./components/CoordinatesForm";
 import Results from "./components/Results";
 import Charts from "./components/Charts"
+import Glossary from "./components/Glossary"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Container, Spinner, Card, Image } from "react-bootstrap";
+import { Row, Col, Container, Spinner, Card, Badge } from "react-bootstrap";
 
 const App = () => {
 
@@ -244,36 +245,12 @@ const setDataCualitativeFormat = (data) => {
           />
       </Row>
 
-      <Row className="mt-4">
-      <h4 className="mb-4">Resultados de optimización, mapa y tabla</h4>
-
-        <Col>
-          <h6>En el mapa podrá ver la ubicación de los lotes seleccionados</h6>
-          <MapView
-            selectedPosition={selectedPosition}
-            lotesSelected={lotesSelected}
-
-            setSelectedPosition={setSelectedPosition}
-            
-          />
-
-          <Row>
-            {
-              cuantitativeData && <Charts 
-                                    className="mt-4" 
-                                    cuantitativeData={cuantitativeData}
-                                    cualitativeData={cualitativeData}
-                                  />
-            }
-
-          </Row>
-          
-
-            
+      <Row className="mt-3">
+      <h4>Resultados de optimización y tablas <Glossary/></h4>
       
-        </Col>
 
-        <Col>
+
+        <Row>
           
           {
             isLoading &&
@@ -295,7 +272,17 @@ const setDataCualitativeFormat = (data) => {
          
 
         
-        </Col>
+        </Row>
+        <Row>
+            {
+              cuantitativeData && <Charts 
+                                    className="mt-4" 
+                                    cuantitativeData={cuantitativeData}
+                                    cualitativeData={cualitativeData}
+                                  />
+            }
+
+          </Row>
 
       
 

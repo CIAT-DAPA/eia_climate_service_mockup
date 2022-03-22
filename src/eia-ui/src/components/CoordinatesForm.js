@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
-import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Alert} from "react-bootstrap";
+import { Row, Col, Button, Form, FloatingLabel, InputGroup, FormControl, Alert, Stack} from "react-bootstrap";
+import Glossary from "./Glossary"
+import MapView from './MapView';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -97,9 +99,9 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
         else if(!(formValues.lotes)){
             setError("Seleccione al menos un lote");
         }
-        else if(!(formValues.predictores)){
-            setError("Seleccione al menos un predictor");
-        }
+        // else if(!(formValues.predictores)){
+        //     setError("Seleccione al menos un predictor");
+        // }
         else if(!(formValues.initialMonth)){
             setError("Seleccione un mes inicial");
         }
@@ -174,20 +176,33 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                     <Select
                         closeMenuOnSelect={false}
                         name="lotes"
-                        options={farmData && farmData != '' ? lotesOptions:null}
+                        options={farmData && farmData !== '' ? lotesOptions:null}
                         isMulti
                         className="basic-multi-select"
                         classNamePrefix="select"
                         placeholder="Selecione uno o más lotes"
-                        isDisabled={farmData && farmData != '' ? false:true}
+                        isDisabled={farmData && farmData !== '' ? false:true}
                         onChange={lotesOnChange}
+                        menuPortalTarget={document.body} 
+                        styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                         />
                 </Form.Group>
             </Row>
-
             <Row className="mb-3">
-            <h6>Selecciona uno o más predictores</h6>
-            <Form.Group as={Col} controlId="predictSelect">
+                <h6>En el mapa podrá ver la ubicación de los lotes seleccionados</h6>
+                <MapView
+                    selectedPosition={selectedPosition}
+                    lotesSelected={lotesSelected}
+
+                    setSelectedPosition={setSelectedPosition}
+                    
+                />
+            </Row>
+
+
+            {/* <h6>Selecciona uno o más factores de manejo</h6>
+            <Stack direction="horizontal" gap={2} className="mb-3">
+            <Form.Group as={Col} controlId="predictSelect" className="me-auto">
                     <Select
                         closeMenuOnSelect={false}
                         name="predictores"
@@ -195,16 +210,17 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                         isMulti
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        placeholder="Selecione uno o más predictores"
+                        placeholder="Selecione uno o más factores de manejo"
                         onChange={predictsOnChange}
                         />
                 </Form.Group>
-            </Row>
+            </Stack> */}
+                
 
 
 
-            <Row>
-                <h6>Selecciona un semestre</h6>
+            <h6>Selecciona un semestre</h6>
+            <Stack direction="horizontal" gap={3}>
                 <Form.Group as={Col} controlId="formGridInitialMonth">
                 
                     <FloatingLabel controlId="floatingSelectInitialMonth" label="Mes inicial">
@@ -251,9 +267,12 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                     </FloatingLabel>
 
                 </Form.Group>
+                <Button variant="primary" type="submit" size="lg">
+                        Enviar
+                </Button>
 
 
-            </Row>
+            </Stack>
 
             
             
@@ -269,9 +288,7 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
                         
                         
                     }
-                    <Button variant="primary" type="submit" size="lg">
-                        Enviar
-                    </Button>
+                    
                 
                 </Col>
 

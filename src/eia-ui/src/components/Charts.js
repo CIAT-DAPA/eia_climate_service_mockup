@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../styles/nvd3.css'
 import Chart from "react-apexcharts";
-import { Row, Col, Form, FloatingLabel} from "react-bootstrap";
+import { Stack, Col, Form, FloatingLabel} from "react-bootstrap";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -43,7 +43,7 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
         })
         var finalFormat = [];
         for(const [key, value] of result[0].value){
-          finalFormat.push({x: key, y: value});
+          finalFormat.push({x: key, y: value.sort(function(a, b) {return a - b;})});
 
         }
         setCualitativeDataFilter(finalFormat);
@@ -67,8 +67,28 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
             type: 'boxPlot',
             height: 350
           },
+          yaxis: {
+            show: true,
+            showAlways: true,
+            title: {
+              text: "Rendimiento t/ha",
+              rotate: -90,
+              offsetX: 0,
+              offsetY: 0,
+              style: {
+                  color: undefined,
+                  fontSize: '12px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 600,
+                  cssClass: 'apexcharts-yaxis-title',
+              },
+            },
+     
+
+          },
+
           title: {
-            text: 'Rendimiento vs prácticas de manejo en Boxplot para datos cualitativos',
+            text: 'Rendimiento vs prácticas de manejo en datos cualitativos',
             align: 'left'
           },
           plotOptions: {
@@ -115,7 +135,7 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
             }
           },
           title: {
-            text: 'Rendimiento vs prácticas de manejo en Scatterplot para datos cuantitativos',
+            text: 'Rendimiento vs prácticas de manejo en datos cuantitativos',
             align: 'left'
           },
           xaxis: {
@@ -128,6 +148,19 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
           },
           yaxis: {
             tickAmount: 7,
+            title: {
+              text: "Rendimiento t/ha",
+              rotate: -90,
+              offsetX: 0,
+              offsetY: 0,
+              style: {
+                  color: undefined,
+                  fontSize: '12px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 600,
+                  cssClass: 'apexcharts-yaxis-title',
+              },
+            },
             
           }
         }
@@ -143,10 +176,10 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
 
     return(
         <div className="mt-4 mb-4">
-          <Row>
+          <h6>Comparación de datos históricos de rendimiento vs prácticas de manejo</h6>
+          <Stack direction="horizontal" gap={2}>
             
-            <Col>
-              <h6>Comparación de datos históricos de rendimiento vs prácticas de manejo</h6>
+          
 
                 <Form.Group as={Col} controlId="formGridSelectPredictor">
                                 
@@ -170,11 +203,11 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
                                     </Form.Select>
                                 </FloatingLabel>
 
-                </Form.Group>
-              
                 {
                   cuantitativeDataFilter && <Scatter/> 
                 }
+                </Form.Group>
+              
 
                 <Form.Group as={Col} controlId="formGridSelectPredictor">
                                 
@@ -198,18 +231,18 @@ const Charts = ({cuantitativeData, cualitativeData}) => {
                                     </Form.Select>
                                 </FloatingLabel>
 
-                </Form.Group>
-              
                 {
                   cuantitativeDataFilter && <Boxplot/> 
                 }
+                </Form.Group>
+              
 
                 
             
-            </Col>
+            
 
 
-          </Row>
+          </Stack>
             
            
           
