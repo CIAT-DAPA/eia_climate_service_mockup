@@ -17,6 +17,7 @@ const App = () => {
   const [lotesSelected, setLotesSelected] = useState();
   const [cuantitativeData, setCuantitativeData] = useState();
   const [cualitativeData, setCualitativeData] = useState();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   const [error, setError] = useState(null);
 
@@ -25,7 +26,38 @@ const App = () => {
   const urlCuantitativeData = "http://localhost:105/cuantitative_data"
   const urlCualitativeData = "http://localhost:105/cualitative_data"
 
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const managmentFactorsDescript = {
+    Chemical_Treat_Disease: ["Número de tratamientos químicos para enfermedades", "(frecuencia)"],
+    Chemical_Treat_Pests: ["Número de tratamientos químicos para malezas", "(frecuencia)"],
+    Chemical_Treat_Weeds: ["Número de tratamientos químicos para plagas", "(frecuencia)"],
+    Cultivar: ["Variedad", ""],
+    Cultivar_Type: ["Tipo de variedad", ""],
+    Harvest_Method: ["Método de cosecha", ""],
+    Number_Chemical_Ferti: ["Número de aplicaciones con fertilizante químico", "(frecuencia)"],
+    Plant_Density_20_days: ["Densidad de plantas a los 20 días", "(plantas/ha)"],
+    Seeds_Per_Site: ["Número de semillas plantadas por sitio", "(semillas/sitio)"],
+    Seeds_Treatment: ["Tratamiento de semillas", ""],
+    Sowing_Method: ["Método de siembra", ""],
+    Sowing_Seeds_Number: ["Número de semillas sembradas por hectárea", "(semillas/ha)"],
+    Total_K: ["Cantidad total de potasio", "(kg/ha)"],
+    Total_N: ["Cantidad total de nitrógenol", "(kg/ha)"],
+    Total_P: ["Cantidad total de fósforo", "(kg/ha)"],
+    pH: ["pH del suelo", "(pH)"],
+    Efective_Dept: ["Profundidad efectiva del suelo", "(cms)"],
+    TM_Avg_VEG: ["Temperatura mínima en el ciclo vegetativo", "(°C)"], 
+    TA_Avg_VEG: ["Temperatura promedio en el ciclo vegetativo", "(°C)"], 
+    DR_Avg_VEG: ["Rango diurno en el ciclo vegetativo", "(°C)"], 
+    SR_Accu_VEG: ["Radiación solar acumulada en el ciclo vegetativo", "(Cal/cm²)"],
+    P_10_Freq_VEG: ["Frecuencia de días con precipitación mayor a 10 mm en el ciclo vegetativo", "(días)"],
+    TA_Avg_CF: ["Temperatura promedio en el ciclo reproductivo", "(°C)"],
+    SR_Accu_CF: ["Radiación solar acumulada en el ciclo reproductivo", "(Cal/cm²)"],
+    P_Accu_CF: ["Precipitación acumulada en el ciclo reproductivo", "(mm)"], 
+    RH_Avg_CF: ["Humedad relativa promedio en el ciclo reproductivo", "(%)"],
+    SR_Accu_MAT: ["Radiación solar acumulada en el ciclo de maduración", "(Cal/cm²)"],
+    P_10_Freq_MAT: ["Frecuencia de días con precipitación mayor a 10 mm en el ciclo de maduración", "(días)"],
+    RH_Avg_MAT: ["Humedad relativa promedio en el ciclo maduración", "(%)"] 
+
+}
 
   // Register the event listeners
   useEffect(() => {
@@ -158,6 +190,7 @@ const setDataCuantitativeFormat = (data) => {
     {name: 'P_10_Freq_VEG', data:[], farm: ''},
     {name: 'TA_Avg_CF', data:[], farm: ''},
     {name: 'SR_Accu_CF', data:[], farm: ''},
+    {name: 'P_Accu_CF', data:[], farm: ''},
     {name: 'RH_Avg_CF', data:[], farm: ''},
     {name: 'SR_Accu_MAT', data:[], farm: ''},
     {name: 'P_10_Freq_MAT', data:[], farm: ''},
@@ -266,7 +299,10 @@ const setDataCualitativeFormat = (data) => {
           }
 
           {
-            returnedData && <Results returnedData={returnedData} lotes={lotesSelected}/>
+            returnedData && <Results 
+                              returnedData={returnedData} 
+                              lotesSelected={lotesSelected} 
+                              managmentFactors={managmentFactorsDescript}/>
           }
 
          
