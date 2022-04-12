@@ -40,6 +40,7 @@ const Results = ({returnedData, lotesSelected, managmentFactors}) => {
                                             <th>Factores de manejo</th>
                                             <th>Actual</th>
                                             <th>Óptimo</th>
+                                            <th>Unidad</th>
                                            </tr>
                                        </thead>
 
@@ -54,9 +55,10 @@ const Results = ({returnedData, lotesSelected, managmentFactors}) => {
                                                        (currentPredictor !== 'Performance') &&
                                                        <tr>
                                                
-                                                           <td>{managmentFactors[currentPredictor][0] + " " + managmentFactors[currentPredictor][1]}</td>
+                                                           <td>{managmentFactors[currentPredictor][0]}</td>
                                                            <td>{predictorsByLote.actual[0][currentPredictor]}</td>
                                                            <td>{predictorsByLote.optimo[0][currentPredictor]}</td>
+                                                           <td>{managmentFactors[currentPredictor][1]}</td>
                                                            {/* <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].current}</td>
                                                            <td>{predictorsByLote.predictors[currentPredictor][Object.keys(predictorsByLote.predictors[currentPredictor])].optimal}</td> */}
 

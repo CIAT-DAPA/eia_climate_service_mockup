@@ -70,6 +70,8 @@ const CoordinatesForm = ({selectedPosition, urlApi, farmData, lotesSelected, ret
             setTimeout(()=>{setError(null)}, 5000);
             
         }
+
+        console.log(formValues);
     
 
         // if(selectedPosition){ Click and mark on map

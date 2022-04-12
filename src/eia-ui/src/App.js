@@ -6,7 +6,7 @@ import Results from "./components/Results";
 import Charts from "./components/Charts"
 import Glossary from "./components/Glossary"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Container, Spinner, Card, Badge } from "react-bootstrap";
+import { Row, Col, Container, Spinner, Card} from "react-bootstrap";
 
 const App = () => {
 
@@ -57,7 +57,8 @@ const App = () => {
     P_10_Freq_MAT: ["Frecuencia de días con precipitación mayor a 10 mm en el ciclo de maduración", "(días)"],
     RH_Avg_MAT: ["Humedad relativa promedio en el ciclo maduración", "(%)"] 
 
-}
+  }
+  const [managmentFactors, setManagmentFactors] = useState(managmentFactorsDescript);
 
   // Register the event listeners
   useEffect(() => {
@@ -302,7 +303,7 @@ const setDataCualitativeFormat = (data) => {
             returnedData && <Results 
                               returnedData={returnedData} 
                               lotesSelected={lotesSelected} 
-                              managmentFactors={managmentFactorsDescript}/>
+                              managmentFactors={managmentFactors}/>
           }
 
          
@@ -315,6 +316,7 @@ const setDataCualitativeFormat = (data) => {
                                     className="mt-4" 
                                     cuantitativeData={cuantitativeData}
                                     cualitativeData={cualitativeData}
+                                    managmentFactors={managmentFactors}
                                   />
             }
 
