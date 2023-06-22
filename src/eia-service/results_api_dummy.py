@@ -24,8 +24,8 @@ yield_and_cuantitative = pd.read_csv('.//data//Cordoba-id-recover.csv',
 
     usecols={"Yield", "Sowing_Seeds_Number", "Seeds_Per_Site", "Plant_Density_20_days", "Chemical_Treat_Disease",
         "Chemical_Treat_Weeds", "Chemical_Treat_Pests", "Total_N", "Total_P", "Total_K", "Number_Chemical_Ferti", "pH",
-        "Efective_Depth", "TM_Avg_VEG", "TA_Avg_VEG", "DR_Avg_VEG", "SR_Accu_VEG", "P_10_Freq_VEG", "TA_Avg_CF", "SR_Accu_CF",
-        "RH_Avg_CF", "SR_Accu_MAT", "P_10_Freq_MAT", "RH_Avg_MAT"})
+        "Efective_Depth", "TM_Avg_VEG", "TA_Avg_VEG", "DR_Avg_VEG", "SR_Accu_VEG", "P_10_Freq_VEG", "TA_Avg_CF", "SR_Accu_CF", 
+        "P_Accu_CF", "RH_Avg_CF", "SR_Accu_MAT", "P_10_Freq_MAT", "RH_Avg_MAT"})
 
 yield_and_cualitative = pd.read_csv('.//data//Cordoba-id-recover.csv', 
     dtype={"Yield": float, "Sowing_Method": str, "Seeds_Treatment": str, "Cultivar": str, "Former_Crop": str,
